@@ -11,7 +11,7 @@ from transfer_monitor import TransferMonitor
 from utils import TaskStatus
 
 class S2Downloader():
-    def __init__(self, config_path):
+    def __init__(self, config_path, username, password):
         self.config_path = config_path
         self.copernicus_url = 'https://scihub.copernicus.eu/dhus'
 
@@ -23,8 +23,8 @@ class S2Downloader():
 
             raise Exception
 
-        self.username = self.config['SENTINEL_USER']
-        self.password = self.config['SENTINEL_PASS']
+        self.username = username
+        self.password = password
 
         self.api = SentinelAPI(self.username,
                                self.password,
