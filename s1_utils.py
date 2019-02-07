@@ -5,6 +5,7 @@
 import time
 import os
 from pathlib import Path
+import datetime
 
 # Third party library
 # http://step.esa.int/docs/v4.0/apidoc/engine/org/esa/snap/core/
@@ -33,8 +34,8 @@ class S1_Preprocessor():
         self.HashMap = jpy.get_type('java.util.HashMap')
 
         # Set start time and loop counter
-        self.start_time = time.time()  # for calculation
-        self.start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        self.start_time = datetime.datetime.now()  # for calculation
+        self.start_time_string = self.start_time.strftime("%Y-%m-%d %H:%M:%S")
 
         print("Processing start time:", self.start_time)
         self.name = self.product_meta['name']
@@ -84,8 +85,14 @@ class S1_Preprocessor():
             # Write data product with BEAM-DIM format to given file path
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_ORB")
+            print('Writing out Orbit File corrected product')
 
             ProductIO.writeProduct(dataproduct, str(SF_filepath), 'BEAM-DIMAP', monitor)
+             # Set start time and loop counter
+            finish_time = datetime.datetime.now()  # for calculation
+            elapsed_time = finish_time - self.start_time
+            print(elapsed_time.strftime("%H:%M:%S"))
+
 
         if os.path.exists(SF_filepath + ".dim"):
             print("Completed applying orbit file:", SF_filepath)
@@ -116,8 +123,13 @@ class S1_Preprocessor():
             # Write data product with BEAM-DIM format to given file path
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_ORB")
+            
+            print('Writing out Sigma0 converted Product')
 
             ProductIO.writeProduct(sigma0_converted, str(SF_filepath), 'BEAM-DIMAP', monitor)
+            finish_time = datetime.datetime.now()  # for calculation
+            elapsed_time = finish_time - self.start_time
+            print(elapsed_time.strftime("%H:%M:%S"))
 
         if os.path.exists(SF_filepath + ".dim"):
             print("Completed applying orbit file:", SF_filepath)
@@ -169,8 +181,14 @@ class S1_Preprocessor():
             # Write data product with BEAM-DIM format to given file path
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_SF")
+            print('Writing out SpeckleFilter Product')
+
 
             ProductIO.writeProduct(dataproduct, str(SF_filepath), 'BEAM-DIMAP', monitor)
+            finish_time = datetime.datetime.now()  # for calculation
+            elapsed_time = finish_time - self.start_time
+            print(elapsed_time.strftime("%H:%M:%S"))
+
 
         if os.path.exists(SF_filepath + ".dim"):
             print("Completed speckle-filtering:", SF_filepath)
@@ -200,7 +218,7 @@ class S1_Preprocessor():
 
         # APPLY RADIOMETRIC NORMALIZATION to SIGMA0 (not clear if necessary) only do if sigma0 NOT done above
         rd_parameters.put('applyRadiometricNormalization', True)
-        rd_parameters.put('incidenceAngleForSigma0', "Use projected local incidence angle from DEM")
+        rd_parameters.put('incidenceAngleForSigma0', "Use local incidence angle from DEM")
         rd_parameters.put('saveSigmaNought', True)
         rd_parameters.put('saveLocalIncidenceAngle', True)
 
@@ -221,8 +239,12 @@ class S1_Preprocessor():
             # Write data product with BEAM-DIM format to given file path
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_ORTHO")
-
+            print('Writing out Terrain-Correction Product')
             ProductIO.writeProduct(rd_corrected, str(SF_filepath), 'BEAM-DIMAP', monitor)
+            finish_time = datetime.datetime.now()  # for calculation
+            elapsed_time = finish_time - self.start_time
+            print(elapsed_time.strftime("%H:%M:%S"))
+
 
         if os.path.exists(SF_filepath + ".dim"):
             print("Completed speckle-filtering:", SF_filepath)
@@ -230,6 +252,7 @@ class S1_Preprocessor():
             print("Completed speckle-filtering: data product saved to in-memory")
 
         self.intermediate_product = rd_corrected
+
 
     def createSourceImage(self, computedBand, realBand):
         """Work around to convert virtual band to real
@@ -294,8 +317,15 @@ class S1_Preprocessor():
             # Write data product with BEAM-DIM format to given file path
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_FINAL")
-
+            print('WRITING OUT PRODUCT')
+            
             ProductIO.writeProduct(self.intermediate_product, str(SF_filepath), 'BEAM-DIMAP')
+            
+            finish_time = datetime.datetime.now()# for calculation
+            elapsed_time = finish_time - self.start_time
+            print(elapsed_time.strftime("%H:%M:%S"))
+
+
         elif format == 'GEOTIFF':
 
             print('WRITING OUT TO GEOTIFF!!')
@@ -323,11 +353,108 @@ class S1_Preprocessor():
 
             # Get a progressMonitor object
             monitor = self.createProgressMonitor()
+            
+            print('WRITING OUT PRODUCT')
 
             ProductIO.writeProduct(self.intermediate_product, str(final_output_name), 'GeoTIFF')
 
+            finish_time = datetime.datetime.now() # for calculation
+            elapsed_time = finish_time - self.start_time
+            print(elapsed_time.strftime("%H:%M:%S"))
+
+
                 # output to geotiff goes here
 
+def createSourceImage(computedBand, realBand):
+        """Work around to convert virtual band to real
+
+        https://forum.step.esa.int/t/how-to-convert-virtual-bands-to-real-bands-using-snappy/3628/6
+        """
+
+        try:
+            # assume computedBand is actually just a normal band
+            return computedBand.getSourceImage()
+        except RuntimeError as e:
+            # if e.message.startswith("java.lang.IllegalArgumentException"):
+            #     # now assume computedBand is virtualBand
+            virtualBand = snappy.jpy.cast(computedBand, snappy.VirtualBand)
+            return snappy.VirtualBand.createSourceImage(realBand, virtualBand.getExpression())
+            # else:
+            #     raise
+
+def convertComputedBandToBand(computedBand):
+    """Work around to convert virtual band to real
+
+    https://forum.step.esa.int/t/how-to-convert-virtual-bands-to-real-bands-using-snappy/3628/6
+    """
+
+    realBand = snappy.Band(
+        computedBand.getName(),
+        computedBand.getDataType(),
+        computedBand.getRasterWidth(),
+        computedBand.getRasterHeight()
+    )
+
+    realBand.setDescription(computedBand.getDescription())
+    realBand.setValidPixelExpression(computedBand.getValidPixelExpression())
+    realBand.setUnit(computedBand.getUnit())
+    realBand.setSpectralWavelength(computedBand.getSpectralWavelength())
+    realBand.setGeophysicalNoDataValue(computedBand.getGeophysicalNoDataValue())
+    realBand.setNoDataValueUsed(computedBand.isNoDataValueUsed())
+
+    if (computedBand.isStxSet()):
+        realBand.setStx(computedBand.getStx())
+
+    imageInfo = computedBand.getImageInfo()
+    if (imageInfo != None):
+        realBand.setImageInfo(imageInfo.clone())
+
+    product = computedBand.getProduct()
+
+    # "Check if all the frame with the raster data are close"
+    # missing some stuff with topComponent
+
+    bandGroup = product.getBandGroup()
+    bandIndex = bandGroup.indexOf(computedBand)
+    bandGroup.remove(computedBand)
+    bandGroup.add(bandIndex, realBand)
+
+    realBand.setSourceImage(createSourceImage(computedBand, realBand))
+
+
+
+def read_terrain_corrected_product(path_to_dim):
+    print(path_to_dim)
+    dataproduct_r = ProductIO.readProduct(path_to_dim)
+    # will the computed band show up?
+    for band in dataproduct_r.getBandNames():
+        print(band)
+
+    print('WRITING OUT TO GEOTIFF!!')
+
+    sigma0_ortho_bands = ["Sigma0_VH_use_local_inci_angle_from_dem",
+                            "Sigma0_VV_use_local_inci_angle_from_dem"]
+
+
+    convertComputedBandToBand(dataproduct_r.getBand(sigma0_ortho_bands[0]))
+    convertComputedBandToBand(dataproduct_r.getBand(sigma0_ortho_bands[1]))
+    
+    HashMap = jpy.get_type('java.util.HashMap')
+    sub_parameters = HashMap()
+    sub_parameters.put('bandNames', ",".join(sigma0_ortho_bands)) # Should eventually look at using a local SRTM 1Sec DEM (instead of auto downloading)
+
+    subset = GPF.createProduct("Subset", sub_parameters, dataproduct_r)
+
+    final_output_name = Path(Path(path_to_dim).parent, "test")
+    
+    print('writing out final result')
+
+    # Get a progressMonitor object
+    # monitor = self.createProgressMonitor()
+    
+    # print('WRITING OUT PRODUCT')
+
+    ProductIO.writeProduct(subset, str(final_output_name), 'BEAM-DIMAP')
 
 
 

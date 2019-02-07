@@ -2,7 +2,8 @@
 import argparse
 import json
 import logging
-
+from pathlib import Path
+from s1_utils import read_terrain_corrected_product
 
 def parse_cli_args():
     """ Get the cmd line arguments using "argparse" library.
@@ -48,34 +49,38 @@ if __name__ == "__main__":
 
     args_obj = parse_cli_args()
 
-    product = json.loads(args_obj.json_product)
+    # product = json.loads(args_obj.json_product)
 
-    footprint = product['footprint']
+    # footprint = product['footprint']
 
-    temp_data_dir = args_obj.temp_data_dir
+    # temp_data_dir = args_obj.temp_data_dir
 
-    external_dem_dir = args_obj.dem_data_dir
+    # external_dem_dir = args_obj.dem_data_dir
 
-    path_to_s2_module = args_obj.util_path
+    # path_to_s2_module = args_obj.util_path
 
-    import sys
-    sys.path.insert(0, path_to_s2_module)
+    # import sys
+    # sys.path.insert(0, path_to_s2_module)
 
-    from sentinel_downloader import s1_utils
-
-
-    s1_preprocessor = s1_utils.S1_Preprocessor(product,
-                                                footprint,
-                                                temp_data_dir,
-                                                external_dem_dir)
+    # from sentinel_downloader import s1_utils
 
 
-    s1_preprocessor.apply_orbit_file(write_intermediate=False)
+    # s1_preprocessor = s1_utils.S1_Preprocessor(product,
+    #                                             footprint,
+    #                                             temp_data_dir,
+    #                                             external_dem_dir)
+
+
+    # s1_preprocessor.apply_orbit_file(write_intermediate=False)
 
     # TODO needs to be finished
     # TODO need to add sci hub fallback for downloads for both L8 and S1
-    s1_preprocessor.speckle_filter(write_intermediate=False)
+    # s1_preprocessor.speckle_filter(write_intermediate=False)
 
-    # s1_preprocessor.range_doppler_to_sigma0(write_intermediate=False)
+    # s1_preprocessor.range_doppler_to_sigma0(write_intermediate=True)
 
-    s1_preprocessor.write_out_result(format='BEAM-DIMAP')
+    # s1_preprocessor.write_out_result(format='BEAM-DIMAP')
+
+    path_to_s1 = Path('/mnt/data_drive/s1_processing/S1B_IW_GRDH_1SDV_20180504T001511_20180504T001536_010764_013ABB_D9E1_Orb_Spk_TC.dim')
+
+    read_terrain_corrected_product(str(path_to_s1))

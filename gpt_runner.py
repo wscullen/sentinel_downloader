@@ -69,7 +69,7 @@ class GPTRunner():
             f.write(f"{output_target_file_path_str}={output_target_file_path_val}\n")
 
 
-    async def _read_stream(stream, cb, result_string, ws):
+    async def read_stream(self, stream, cb, result_string, ws):
 
         # logging.basicConfig(level=logging.DEBUG, format="%(asctime)s-%(thread)d-%(process)d-%(funcName)s-%(message)s")
         # logger.setFormatter(formatter)
@@ -101,8 +101,8 @@ class GPTRunner():
         final_result = False
 
         await asyncio.wait([
-                            _read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
-                            _read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
+                            self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
+                            self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
                         ])
 
         print(f'[{cmd!r} exited with {proc.returncode}]')
