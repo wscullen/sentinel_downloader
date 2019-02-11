@@ -226,3 +226,12 @@ def zip_directory(dirname):
             zipf.write(os.path.join(root, file), file)
 
     zipf.close()
+
+def get_xml_path():
+
+    try:
+        file_path = Path(Path(__file__).parent, 'gpt_graphs', 's1')
+    except:
+        print("This file does not exist... somehow...")
+    else:
+        return file_path

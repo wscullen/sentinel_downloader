@@ -61,13 +61,21 @@ class GPTRunner():
 
         output_target_file_path_val = str(Path(self.target_path, target_file_name))
 
+        properties_dict = {}
+
         with open(f'process{self.process_id}.properties', 'w') as f:
             f.write(f"{source_product_manifest_file_str}={source_product_manifest_file_val}\n")
+            properties_dict[source_product_manifest_file_str] = source_product_manifest_file_val
             f.write(f"{filter_size_str}={filter_size_val}\n")
+            properties_dict[filter_size_str] = filter_size_val
             f.write(f"{window_size_str}={window_size_val}\n")
+            properties_dict[window_size_str] = window_size_val
             f.write(f"{bit_depth_str}={bit_depth_val}\n")
+            properties_dict[bit_depth_str] = bit_depth_val
             f.write(f"{output_target_file_path_str}={output_target_file_path_val}\n")
+            properties_dict[output_target_file_path_str] = output_target_file_path_val
 
+        return properties_dict
 
     async def read_stream(self, stream, cb, result_string, ws):
 
@@ -101,11 +109,12 @@ class GPTRunner():
         final_result = False
 
         await asyncio.wait([
-                            self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
+                            self.read_stream(proc.stdout, lambda x: x, result_string, None),
                             self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
                         ])
 
         print(f'[{cmd!r} exited with {proc.returncode}]')
+
 
         if len(result_string) > 0:
             # print(f'[stdout]\n{stdout.decode()}')
@@ -114,6 +123,10 @@ class GPTRunner():
             # print(f'[stderr]\n{stderr.decode()}')
             print(result_err_string)
 
+        if proc.returncode != 0:
+            return False
+        else:
+            return True
 
     def run_graph(self):
         gpt_path = Path('/home/cullens/Development/sentinel_downloader/gpt_graphs')
@@ -124,9 +137,11 @@ class GPTRunner():
         bash_script_path = Path(gpt_path, 'processDataset.bash')
         graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
 
-        asyncio.run(self.run(
+        result = asyncio.run(self.run(
             f'{bash_script_path} {self.graph_xml_file} {properties_path}'.split(' ')
         ))
+
+        return result
 
 if __name__ == "__main__":
     pass
