@@ -11,9 +11,9 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 class TestGPTRunner(unittest.TestCase):
 
     def setUp(self):
-        self.product_path_arg = '/home/cullens/Development/s2d2/temp/S1B_IW_GRDH_1SDV_20180504T001446_20180504T001511_010764_013ABB_0FBB.SAFE/'
+        self.product_path_arg = '/home/cullens/Development/s2d2/temp/S1B_IW_GRDH_1SDV_20180504T001446_20180504T001511_010764_013ABB_0FBB.SAFE'
         self.target_path_arg = '/home/cullens/Development/s2d2/temp'
-        self.path_to_graph_xml = '/home/cullens/Development/sentinel_downloader/gpt_graphs/s1/ao_sf_con_tc_test.xml'
+        self.path_to_graph_xml = '/home/cullens/Development/sentinel_downloader/gpt_graphs/s1/ao_sf_tc_norm_test.xml'
 
 
         self.arg_dict = {
