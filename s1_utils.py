@@ -123,7 +123,7 @@ class S1_Preprocessor():
             # Write data product with BEAM-DIM format to given file path
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_ORB")
-            
+
             print('Writing out Sigma0 converted Product')
 
             ProductIO.writeProduct(sigma0_converted, str(SF_filepath), 'BEAM-DIMAP', monitor)
@@ -295,7 +295,7 @@ class S1_Preprocessor():
             realBand.setStx(computedBand.getStx())
 
         imageInfo = computedBand.getImageInfo()
-        if (imageInfo != None):
+        if imageInfo is not None:
             realBand.setImageInfo(imageInfo.clone())
 
         product = computedBand.getProduct()
@@ -318,9 +318,9 @@ class S1_Preprocessor():
             # ProductIO.writeProduct(Product product, String filePath, String formatName)
             SF_filepath = Path(self.working_dir, self.name_with_safe + "_FINAL")
             print('WRITING OUT PRODUCT')
-            
+
             ProductIO.writeProduct(self.intermediate_product, str(SF_filepath), 'BEAM-DIMAP')
-            
+
             finish_time = datetime.datetime.now()# for calculation
             elapsed_time = finish_time - self.start_time
             print(elapsed_time.strftime("%H:%M:%S"))
@@ -353,7 +353,7 @@ class S1_Preprocessor():
 
             # Get a progressMonitor object
             monitor = self.createProgressMonitor()
-            
+
             print('WRITING OUT PRODUCT')
 
             ProductIO.writeProduct(self.intermediate_product, str(final_output_name), 'GeoTIFF')
@@ -438,7 +438,7 @@ def read_terrain_corrected_product(path_to_dim):
 
     convertComputedBandToBand(dataproduct_r.getBand(sigma0_ortho_bands[0]))
     convertComputedBandToBand(dataproduct_r.getBand(sigma0_ortho_bands[1]))
-    
+
     HashMap = jpy.get_type('java.util.HashMap')
     sub_parameters = HashMap()
     sub_parameters.put('bandNames', ",".join(sigma0_ortho_bands)) # Should eventually look at using a local SRTM 1Sec DEM (instead of auto downloading)
@@ -446,12 +446,12 @@ def read_terrain_corrected_product(path_to_dim):
     subset = GPF.createProduct("Subset", sub_parameters, dataproduct_r)
 
     final_output_name = Path(Path(path_to_dim).parent, "test")
-    
+
     print('writing out final result')
 
     # Get a progressMonitor object
     # monitor = self.createProgressMonitor()
-    
+
     # print('WRITING OUT PRODUCT')
 
     ProductIO.writeProduct(subset, str(final_output_name), 'BEAM-DIMAP')

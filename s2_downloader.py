@@ -10,8 +10,9 @@ from transfer_monitor import TransferMonitor
 
 from utils import TaskStatus
 
+
 class S2Downloader():
-    def __init__(self, config_path, username, password):
+    def __init__(self, config_path, username=None, password=None):
         self.config_path = config_path
         self.copernicus_url = 'https://scihub.copernicus.eu/dhus'
 
@@ -23,8 +24,8 @@ class S2Downloader():
 
             raise Exception
 
-        self.username = username
-        self.password = password
+        self.username = username or os.environ['ESA_SCIHUB_USER']
+        self.password = password or os.environ['ESA_SCIHUB_PASS']
 
         self.api = SentinelAPI(self.username,
                                self.password,
@@ -80,7 +81,12 @@ class S2Downloader():
 
         names_formatted_for_search = []
         for name in names:
-            names_formatted_for_search.append(f'(filename:{name}*)')
+            if name[:3] == 'L1C':
+                name_parts = name.split('_')
+                usgs_name = f'*S2*_MSIL1C_{name_parts[3][:8]}*{name_parts[1]}*'
+                names_formatted_for_search.append(f'(filename:{usgs_name})')
+            else:
+                names_formatted_for_search.append(f'(filename:{name}*)')
 
         names_raw_query_str = " or ".join(names_formatted_for_search)
 
@@ -90,9 +96,8 @@ class S2Downloader():
         print(producttype, filename, sensormode)
         results = collections.OrderedDict([])
         for name in names:
-
-            result = self.api.query(filename=name + "*",
-                                    platformname=dataset_name)
+            print('testing')
+            result = self.api.query(raw=name)
             results.update(result)
 
         print(results)

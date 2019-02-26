@@ -342,8 +342,7 @@ def query_by_name(platform_name, name_list, arg_list, date_string, config_path=N
                         products_dict[key] = product_dict
 
             elif platform_name == 'Sentinel-2':
-                for product in products:
-                    for key, value in product.items():
+                    for key, value in products.items():
                         product_dict = {}
                         product_dict['entity_id'] = key
 
@@ -418,5 +417,5 @@ def query_by_name(platform_name, name_list, arg_list, date_string, config_path=N
 
             return products_dict
         else:
-            print(
-                f'no product found for product name {product_name_string}')
+            print('No product found.')
+            return {}
