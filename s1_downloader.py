@@ -37,10 +37,10 @@ class S1Downloader():
 
         self.esa_downloader = esa_downloader.S2Downloader(self.config_path)
 
-        if self.primary_dl_src == 'ASF_DAAC':
+        if self.primary_dl_src == 'USGS_ASF':
             self.secondary_dl_src = 'ESA_SCIHUB'
         elif self.primary_dl_src == 'ESA_SCIHUB':
-            self.secondary_dl_src = 'ASF_DAAC'
+            self.secondary_dl_src = 'USGS_ASF'
 
 
     def s1_download_wrapper(self, product: Dict, dest_dir: str) -> TaskStatus:
@@ -56,7 +56,7 @@ class S1Downloader():
             return TaskStatus(True, f'Product zip already exists in dest dir {product["name"]}', None)
 
 
-        if self.primary_dl_src == 'ASF_DAAC':
+        if self.primary_dl_src == 'USGS_ASF':
             result = self.asf_download_zip(product, dest_dir)
 
         elif self.primary_dl_src == 'ESA_SCIHUB':

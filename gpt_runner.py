@@ -25,10 +25,11 @@ class GPTRunner():
         self.product_name = Path(self.product_path).name.split('.')[0]
 
         self.graph_xml_file = graph_xml_file
-
+        # print(graph_xml_file)
         self.target_path = target_path
         self.arg_dict = arg_dict
         self.process_id = process_id
+        self.properties_file = file_path = Path(Path(self.product_path).parent, f'process{self.process_id}.properties')
 
 
     def generate_properties_file(self):
@@ -63,7 +64,7 @@ class GPTRunner():
 
         properties_dict = {}
 
-        with open(f'process{self.process_id}.properties', 'w') as f:
+        with open(self.properties_file, 'w') as f:
             f.write(f"{source_product_manifest_file_str}={source_product_manifest_file_val}\n")
             properties_dict[source_product_manifest_file_str] = source_product_manifest_file_val
             f.write(f"{filter_size_str}={filter_size_val}\n")
@@ -129,16 +130,17 @@ class GPTRunner():
             return True
 
     def run_graph(self):
-        gpt_path = Path('/home/cullens/Development/sentinel_downloader/gpt_graphs')
-        properties_path = Path('/home/cullens/Development/sentinel_downloader/', f'process{self.process_id}.properties')
+        gpt_path = Path(self.graph_xml_file).parents[1]
+        # gpt_path = Path('/home/cullens/Development/sentinel_downloader/gpt_graphs')
+        # properties_path = Path('/home/cullens/Development/sentinel_downloader/', f'process{self.process_id}.properties')
 
         self.generate_properties_file()
 
         bash_script_path = Path(gpt_path, 'processDataset.bash')
-        graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
+        # graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
 
         result = asyncio.run(self.run(
-            f'{bash_script_path} {self.graph_xml_file} {properties_path}'.split(' ')
+            f'{bash_script_path} {self.graph_xml_file} {self.properties_file}'.split(' ')
         ))
 
         return result
