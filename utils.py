@@ -1,3 +1,5 @@
+from pathlib import Path
+
 def get_utm_tile(product_name):
     """Get the UTM zone and number from the product name.
 
@@ -230,6 +232,10 @@ def zip_directory(dirname):
 def get_xml_path():
 
     try:
+        print(__file__)
+        print(Path(__file__).parent)
+
+
         file_path = Path(Path(__file__).parent, 'gpt_graphs', 's1')
     except:
         print("This file does not exist... somehow...")

@@ -1,0 +1,167 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>E:\JECAM\FullSceneTesting\Raw\Processed\Test\_TIFF\Orb_Noise_Cal_Spk_RD\S1A_IW_GRDH_1SDV_20170914T133118_20170914T133147_018372_01EEC3_392C.tif</file>
+      <formatName>GeoTIFF-BigTIFF</formatName>
+    </parameters>
+  </node>
+  <node id="BandMaths">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>sigma0_vv_kelln</name>
+          <type>float32</type>
+          <expression>Sigma0_VV * (sin(rad(projectedLocalIncidenceAngle))/sin(rad(incidenceAngleFromEllipsoid)))</expression>
+          <description/>
+          <unit>linear</unit>
+          <noDataValue>0.0</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="BandMaths(2)">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>sigma0_vh_kelln</name>
+          <type>float32</type>
+          <expression>Sigma0_VH * (sin(rad(projectedLocalIncidenceAngle))/sin(rad(incidenceAngleFromEllipsoid)))</expression>
+          <description/>
+          <unit>linear</unit>
+          <noDataValue>0.0</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="BandMerge">
+    <operator>BandMerge</operator>
+    <sources>
+      <sourceProduct refid="BandMaths"/>
+      <sourceProduct.1 refid="BandMaths(2)"/>
+      <sourceProduct.2 refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <geographicError>1.0E-5</geographicError>
+    </parameters>
+  </node>
+  <node id="BandMaths(3)">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="BandMerge"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>sigma0_vv_kelln_norm</name>
+          <type>float32</type>
+          <expression>sigma0_vv_kelln * (cos(rad(37.55))*cos(rad(37.55)))/(cos(rad(localIncidenceAngle))*cos(rad(localIncidenceAngle)))</expression>
+          <description/>
+          <unit>linear</unit>
+          <noDataValue>0.0</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="BandMaths(4)">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="BandMerge"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>sigma0_vh_kelln_norm</name>
+          <type>float32</type>
+          <expression>sigma0_vh_kelln * (cos(rad(37.55))*cos(rad(37.55)))/(cos(rad(localIncidenceAngle))*cos(rad(localIncidenceAngle)))</expression>
+          <description/>
+          <unit>linear</unit>
+          <noDataValue>0.0</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="BandMerge(2)">
+    <operator>BandMerge</operator>
+    <sources>
+      <sourceProduct refid="BandMerge"/>
+      <sourceProduct.1 refid="BandMaths(3)"/>
+      <sourceProduct.2 refid="BandMaths(4)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands/>
+      <geographicError>1.0E-5</geographicError>
+    </parameters>
+  </node>
+  <node id="Subset">
+    <operator>Subset</operator>
+    <sources>
+      <sourceProduct refid="BandMerge(2)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>sigma0_vv_kelln,sigma0_vh_kelln,Sigma0_VH,Sigma0_VV,sigma0_vv_kelln_norm,sigma0_vh_kelln_norm</sourceBands>
+      <region>0,0,45255,23820</region>
+      <geoRegion/>
+      <subSamplingX>1</subSamplingX>
+      <subSamplingY>1</subSamplingY>
+      <fullSwath>false</fullSwath>
+      <tiePointGridNames/>
+      <copyMetadata>true</copyMetadata>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="Subset"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>E:\JECAM\FullSceneTesting\Raw\Processed\Test\_TIFF\Orb_Noise_Cal_Spk_RD\S1A_IW_GRDH_1SDV_20170914T133118_20170914T133147_018372_01EEC3_392C_NORM.tif</file>
+      <formatName>GeoTIFF-BigTIFF</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+            <displayPosition x="19.0" y="16.0"/>
+    </node>
+    <node id="BandMaths">
+      <displayPosition x="208.0" y="61.0"/>
+    </node>
+    <node id="BandMaths(2)">
+      <displayPosition x="80.0" y="79.0"/>
+    </node>
+    <node id="BandMerge">
+      <displayPosition x="39.0" y="236.0"/>
+    </node>
+    <node id="BandMaths(3)">
+      <displayPosition x="278.0" y="214.0"/>
+    </node>
+    <node id="BandMaths(4)">
+      <displayPosition x="288.0" y="168.0"/>
+    </node>
+    <node id="BandMerge(2)">
+      <displayPosition x="410.0" y="265.0"/>
+    </node>
+    <node id="Subset">
+      <displayPosition x="422.0" y="329.0"/>
+    </node>
+    <node id="Write">
+      <displayPosition x="518.0" y="328.0"/>
+    </node>
+  </applicationData>
+</graph>

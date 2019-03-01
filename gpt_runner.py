@@ -109,7 +109,7 @@ class GPTRunner():
         final_result = False
 
         await asyncio.wait([
-                            self.read_stream(proc.stdout, lambda x: x, result_string, None),
+                            self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
                             self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
                         ])
 
