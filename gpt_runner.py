@@ -57,7 +57,8 @@ class GPTRunner():
 
         output_target_file_path_str = 'outputTargetFilePath'
 
-        target_suffix = '_' + Path(self.graph_xml_file).name.split('.')[0] + '.tif'
+        # target_suffix = '_' + Path(self.graph_xml_file).name.split('.')[0] + '.tif'
+        target_suffix = '_' + Path(self.graph_xml_file).name[:-4]
         target_file_name = self.product_name + target_suffix
 
         output_target_file_path_val = str(Path(self.target_path, target_file_name))
@@ -113,6 +114,8 @@ class GPTRunner():
                             self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
                             self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
                         ])
+
+        await proc.wait()
 
         print(f'[{cmd!r} exited with {proc.returncode}]')
 

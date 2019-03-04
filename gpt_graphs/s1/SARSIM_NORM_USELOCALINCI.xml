@@ -1,0 +1,213 @@
+<graph id="Graph">
+  <version>1.0</version>
+  <node id="Read">
+    <operator>Read</operator>
+    <sources/>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>D:\JECAM\Activity 1 &amp; 2 C Band SAR\FullScene\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520.zip</file>
+    </parameters>
+  </node>
+  <node id="Apply-Orbit-File">
+    <operator>Apply-Orbit-File</operator>
+    <sources>
+      <sourceProduct refid="Read"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <orbitType>Sentinel Precise (Auto Download)</orbitType>
+      <polyDegree>3</polyDegree>
+      <continueOnFail>true</continueOnFail>
+    </parameters>
+  </node>
+  <node id="Speckle-Filter">
+    <operator>Speckle-Filter</operator>
+    <sources>
+      <sourceProduct refid="Apply-Orbit-File"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>Intensity_VH,Intensity_VV</sourceBands>
+      <filter>Gamma Map</filter>
+      <filterSizeX>7</filterSizeX>
+      <filterSizeY>7</filterSizeY>
+      <dampingFactor>2</dampingFactor>
+      <estimateENL>true</estimateENL>
+      <enl>1.0</enl>
+      <numLooksStr>1</numLooksStr>
+      <windowSize>7x7</windowSize>
+      <targetWindowSizeStr>3x3</targetWindowSizeStr>
+      <sigmaStr>0.9</sigmaStr>
+      <anSize>50</anSize>
+    </parameters>
+  </node>
+  <node id="SAR-Simulation">
+    <operator>SAR-Simulation</operator>
+    <sources>
+      <sourceProduct refid="Speckle-Filter"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <sourceBands>Intensity_VH,Intensity_VV</sourceBands>
+      <demName>SRTM 1Sec HGT</demName>
+      <demResamplingMethod>BILINEAR_INTERPOLATION</demResamplingMethod>
+      <externalDEMFile/>
+      <externalDEMNoDataValue>0.0</externalDEMNoDataValue>
+      <externalDEMApplyEGM>true</externalDEMApplyEGM>
+      <saveLayoverShadowMask>false</saveLayoverShadowMask>
+    </parameters>
+  </node>
+  <node id="Cross-Correlation">
+    <operator>Cross-Correlation</operator>
+    <sources>
+      <sourceProduct refid="SAR-Simulation"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <numGCPtoGenerate>231</numGCPtoGenerate>
+      <coarseRegistrationWindowWidth>128</coarseRegistrationWindowWidth>
+      <coarseRegistrationWindowHeight>128</coarseRegistrationWindowHeight>
+      <rowInterpFactor>2</rowInterpFactor>
+      <columnInterpFactor>2</columnInterpFactor>
+      <maxIteration>10</maxIteration>
+      <gcpTolerance>0.5</gcpTolerance>
+      <applyFineRegistration>true</applyFineRegistration>
+      <inSAROptimized>true</inSAROptimized>
+      <fineRegistrationWindowWidth>32</fineRegistrationWindowWidth>
+      <fineRegistrationWindowHeight>32</fineRegistrationWindowHeight>
+      <fineRegistrationWindowAccAzimuth>16</fineRegistrationWindowAccAzimuth>
+      <fineRegistrationWindowAccRange>16</fineRegistrationWindowAccRange>
+      <fineRegistrationOversampling>16</fineRegistrationOversampling>
+      <coherenceWindowSize>3</coherenceWindowSize>
+      <coherenceThreshold>0.6</coherenceThreshold>
+      <useSlidingWindow>false</useSlidingWindow>
+      <computeOffset>false</computeOffset>
+      <onlyGCPsOnLand>false</onlyGCPsOnLand>
+    </parameters>
+  </node>
+  <node id="SARSim-Terrain-Correction">
+    <operator>SARSim-Terrain-Correction</operator>
+    <sources>
+      <sourceProduct refid="Cross-Correlation"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <rmsThreshold>1.0</rmsThreshold>
+      <warpPolynomialOrder>1</warpPolynomialOrder>
+      <imgResamplingMethod>BILINEAR_INTERPOLATION</imgResamplingMethod>
+      <pixelSpacingInMeter>10.0</pixelSpacingInMeter>
+      <pixelSpacingInDegree>8.983152841195215E-5</pixelSpacingInDegree>
+      <mapProjection>GEOGCS[&quot;WGS84(DD)&quot;, &#xd;
+  DATUM[&quot;WGS84&quot;, &#xd;
+    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]], &#xd;
+  PRIMEM[&quot;Greenwich&quot;, 0.0], &#xd;
+  UNIT[&quot;degree&quot;, 0.017453292519943295], &#xd;
+  AXIS[&quot;Geodetic longitude&quot;, EAST], &#xd;
+  AXIS[&quot;Geodetic latitude&quot;, NORTH]]</mapProjection>
+      <alignToStandardGrid>false</alignToStandardGrid>
+      <standardGridOriginX>0.0</standardGridOriginX>
+      <standardGridOriginY>0.0</standardGridOriginY>
+      <saveDEM>false</saveDEM>
+      <saveLatLon>false</saveLatLon>
+      <saveLocalIncidenceAngle>true</saveLocalIncidenceAngle>
+      <saveProjectedLocalIncidenceAngle>true</saveProjectedLocalIncidenceAngle>
+      <saveSelectedSourceBand>false</saveSelectedSourceBand>
+      <outputComplex>false</outputComplex>
+      <applyRadiometricNormalization>true</applyRadiometricNormalization>
+      <saveSigmaNought>true</saveSigmaNought>
+      <saveGammaNought>false</saveGammaNought>
+      <saveBetaNought>false</saveBetaNought>
+      <incidenceAngleForSigma0>Use local incidence angle from DEM</incidenceAngleForSigma0>
+      <incidenceAngleForGamma0>Use projected local incidence angle from DEM</incidenceAngleForGamma0>
+      <auxFile>Latest Auxiliary File</auxFile>
+      <externalAuxFile/>
+      <openShiftsFile>false</openShiftsFile>
+      <openResidualsFile>false</openResidualsFile>
+    </parameters>
+  </node>
+  <node id="BandMaths">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="SARSim-Terrain-Correction"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>newBand</name>
+          <type>float32</type>
+          <expression>Sigma0_VH_use_local_inci_angle_from_dem</expression>
+          <description/>
+          <unit/>
+          <noDataValue>0.0</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="BandMaths(2)">
+    <operator>BandMaths</operator>
+    <sources>
+      <sourceProduct refid="SARSim-Terrain-Correction"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <targetBands>
+        <targetBand>
+          <name>newBand</name>
+          <type>float32</type>
+          <expression>Sigma0_VV_use_local_inci_angle_from_dem</expression>
+          <description/>
+          <unit/>
+          <noDataValue>0.0</noDataValue>
+        </targetBand>
+      </targetBands>
+      <variables/>
+    </parameters>
+  </node>
+  <node id="Write(2)">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="BandMaths(2)"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>D:\FullScene\TESTSARSIM\SARSIMLocal\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520_Orb_Spk_TC_BandMath2.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="BandMaths"/>
+    </sources>
+    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
+      <file>D:\FullScene\TESTSARSIM\SARSIMLocal\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520_Orb_Spk_TC_BandMath.dim</file>
+      <formatName>BEAM-DIMAP</formatName>
+    </parameters>
+  </node>
+  <applicationData id="Presentation">
+    <Description/>
+    <node id="Read">
+      <displayPosition x="6.0" y="12.0"/>
+    </node>
+    <node id="Apply-Orbit-File">
+      <displayPosition x="60.0" y="52.0"/>
+    </node>
+    <node id="Speckle-Filter">
+      <displayPosition x="98.0" y="90.0"/>
+    </node>
+    <node id="SAR-Simulation">
+      <displayPosition x="154.0" y="128.0"/>
+    </node>
+    <node id="Cross-Correlation">
+      <displayPosition x="213.0" y="173.0"/>
+    </node>
+    <node id="SARSim-Terrain-Correction">
+      <displayPosition x="274.0" y="211.0"/>
+    </node>
+    <node id="BandMaths">
+      <displayPosition x="520.0" y="217.0"/>
+    </node>
+    <node id="BandMaths(2)">
+      <displayPosition x="376.0" y="287.0"/>
+    </node>
+    <node id="Write(2)">
+      <displayPosition x="471.0" y="320.0"/>
+    </node>
+    <node id="Write">
+      <displayPosition x="612.0" y="243.0"/>
+    </node>
+  </applicationData>
+</graph>
