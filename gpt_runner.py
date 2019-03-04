@@ -95,44 +95,46 @@ class GPTRunner():
             else:
                 break
 
-
-    async def run(self, cmd):
+    @staticmethod
+    async def run(cmd):
 
         print(cmd)
 
-        proc = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE)
+        asyncio.sleep(5)
 
-        result_string = []
-        result_err_string = []
+        return 'hello'
 
-        final_result = False
+        # proc = await asyncio.create_subprocess_exec(
+        #     *cmd,
+        #     stdout=asyncio.subprocess.PIPE,
+        #     stderr=asyncio.subprocess.PIPE)
 
-        await asyncio.wait([
-                            self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
-                            self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
-                        ])
+        # result_string = []
+        # result_err_string = []
 
-        await proc.wait()
+        # final_result = False
 
-        print(f'[{cmd!r} exited with {proc.returncode}]')
+        # await asyncio.wait([
+        #                     self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
+        #                     self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
+        #                 ])
+
+        # print(f'[{cmd!r} exited with {proc.returncode}]')
 
 
-        if len(result_string) > 0:
-            # print(f'[stdout]\n{stdout.decode()}')
-            print(result_string)
-        if len(result_err_string) > 0:
-            # print(f'[stderr]\n{stderr.decode()}')
-            print(result_err_string)
+        # if len(result_string) > 0:
+        #     # print(f'[stdout]\n{stdout.decode()}')
+        #     print(result_string)
+        # if len(result_err_string) > 0:
+        #     # print(f'[stderr]\n{stderr.decode()}')
+        #     print(result_err_string)
 
-        if proc.returncode != 0:
-            return False
-        else:
-            return True
+        # if proc.returncode != 0:
+        #     return False
+        # else:
+        #     return True
 
-    def run_graph(self):
+    def generate_cmd(self):
         gpt_path = Path(self.graph_xml_file).parents[1]
         # gpt_path = Path('/home/cullens/Development/sentinel_downloader/gpt_graphs')
         # properties_path = Path('/home/cullens/Development/sentinel_downloader/', f'process{self.process_id}.properties')
@@ -142,12 +144,8 @@ class GPTRunner():
         bash_script_path = Path(gpt_path, 'processDataset.bash')
         # graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
 
-        result = asyncio.run(self.run(
-            f'{bash_script_path} {self.graph_xml_file} {self.properties_file}'.split(' ')
-        ))
-
-        return result
-
+        return f'{bash_script_path} {self.graph_xml_file} {self.properties_file}'.split(' ')
+        
 if __name__ == "__main__":
     pass
     # product_path_arg = '/home/cullens/Development/s2d2/temp/S1B_IW_GRDH_1SDV_20180504T001446_20180504T001511_010764_013ABB_0FBB.SAFE'
