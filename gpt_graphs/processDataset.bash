@@ -50,5 +50,6 @@ removeExtension() {
 # for F in $(ls -1d "${sourceDirectory}"/S1*.SAFE); do
 #   sourceFile="$(realpath "$F")"
   # targetFile="${targetDirectory}/${targetFilePrefix}_$(removeExtension "$(basename ${F})").dim"
+echo "${gptPath} ${graphXmlPath} -e -p ${parameterFilePath}"
 ${gptPath} ${graphXmlPath} -e -p ${parameterFilePath}
 # done

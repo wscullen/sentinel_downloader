@@ -62,6 +62,11 @@ class GPTRunner():
         target_file_name = self.product_name + target_suffix
 
         output_target_file_path_val = str(Path(self.target_path, target_file_name))
+        
+        output_target_file_path_str2 = 'outputTargetFilePath2'
+        target_file_name2 = self.product_name + target_suffix + '2'
+
+        output_target_file_path_val2 = str(Path(self.target_path, target_file_name2))
 
         properties_dict = {}
 
@@ -76,6 +81,8 @@ class GPTRunner():
             properties_dict[bit_depth_str] = bit_depth_val
             f.write(f"{output_target_file_path_str}={output_target_file_path_val}\n")
             properties_dict[output_target_file_path_str] = output_target_file_path_val
+            f.write(f"{output_target_file_path_str2}={output_target_file_path_val2}\n")
+            properties_dict[output_target_file_path_str2] = output_target_file_path_val2
 
         return properties_dict
 
@@ -144,8 +151,9 @@ class GPTRunner():
         bash_script_path = Path(gpt_path, 'processDataset.bash')
         # graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
 
-        return f'{bash_script_path} {self.graph_xml_file} {self.properties_file}'.split(' ')
+        return f'gpt {self.graph_xml_file} -e -p {self.properties_file}'.split(' ')
         
+
 if __name__ == "__main__":
     pass
     # product_path_arg = '/home/cullens/Development/s2d2/temp/S1B_IW_GRDH_1SDV_20180504T001446_20180504T001511_010764_013ABB_0FBB.SAFE'

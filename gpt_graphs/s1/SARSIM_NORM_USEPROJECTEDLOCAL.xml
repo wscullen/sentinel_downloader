@@ -4,7 +4,7 @@
     <operator>Read</operator>
     <sources/>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>D:\JECAM\Activity 1 &amp; 2 C Band SAR\FullScene\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520.zip</file>
+      <file>${sourceProductManifestFile}</file>
       <formatName>SENTINEL-1</formatName>
     </parameters>
   </node>
@@ -126,7 +126,7 @@
       <sourceProduct refid="SARSim-Terrain-Correction"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>D:\FullScene\TESTSARSIM\SARSIMLocal\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520_Orb_Spk_TC.dim</file>
+      <file>${outputTargetFilePath}</file>
       <formatName>BEAM-DIMAP</formatName>
     </parameters>
   </node>
