@@ -16,35 +16,16 @@
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
       <orbitType>Sentinel Precise (Auto Download)</orbitType>
       <polyDegree>3</polyDegree>
-      <continueOnFail>false</continueOnFail>
-    </parameters>
-  </node>
-  <node id="Calibration">
-    <operator>Calibration</operator>
-    <sources>
-      <sourceProduct refid="Apply-Orbit-File"/>
-    </sources>
-    <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands/>
-      <auxFile>Product Auxiliary File</auxFile>
-      <externalAuxFile/>
-      <outputImageInComplex>false</outputImageInComplex>
-      <outputImageScaleInDb>false</outputImageScaleInDb>
-      <createGammaBand>false</createGammaBand>
-      <createBetaBand>false</createBetaBand>
-      <selectedPolarisations/>
-      <outputSigmaBand>true</outputSigmaBand>
-      <outputGammaBand>false</outputGammaBand>
-      <outputBetaBand>false</outputBetaBand>
+      <continueOnFail>true</continueOnFail>
     </parameters>
   </node>
   <node id="Speckle-Filter">
     <operator>Speckle-Filter</operator>
     <sources>
-      <sourceProduct refid="Calibration"/>
+      <sourceProduct refid="Apply-Orbit-File"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands/>
+      <sourceBands>Amplitude_VH,Intensity_VH,Amplitude_VV,Intensity_VV</sourceBands>
       <filter>Gamma Map</filter>
       <filterSizeX>7</filterSizeX>
       <filterSizeY>7</filterSizeY>
@@ -64,7 +45,7 @@
       <sourceProduct refid="Speckle-Filter"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands>Sigma0_VH,Sigma0_VV</sourceBands>
+      <sourceBands/>
       <demName>SRTM 1Sec HGT</demName>
       <externalDEMFile/>
       <externalDEMNoDataValue>0.0</externalDEMNoDataValue>
@@ -86,17 +67,17 @@
       <nodataValueAtSea>true</nodataValueAtSea>
       <saveDEM>false</saveDEM>
       <saveLatLon>false</saveLatLon>
-      <saveIncidenceAngleFromEllipsoid>false</saveIncidenceAngleFromEllipsoid>
-      <saveLocalIncidenceAngle>false</saveLocalIncidenceAngle>
-      <saveProjectedLocalIncidenceAngle>false</saveProjectedLocalIncidenceAngle>
-      <saveSelectedSourceBand>true</saveSelectedSourceBand>
+      <saveIncidenceAngleFromEllipsoid>true</saveIncidenceAngleFromEllipsoid>
+      <saveLocalIncidenceAngle>true</saveLocalIncidenceAngle>
+      <saveProjectedLocalIncidenceAngle>true</saveProjectedLocalIncidenceAngle>
+      <saveSelectedSourceBand>false</saveSelectedSourceBand>
       <outputComplex>false</outputComplex>
-      <applyRadiometricNormalization>false</applyRadiometricNormalization>
-      <saveSigmaNought>false</saveSigmaNought>
+      <applyRadiometricNormalization>true</applyRadiometricNormalization>
+      <saveSigmaNought>true</saveSigmaNought>
       <saveGammaNought>false</saveGammaNought>
       <saveBetaNought>false</saveBetaNought>
       <incidenceAngleForSigma0>Use projected local incidence angle from DEM</incidenceAngleForSigma0>
-      <incidenceAngleForGamma0>Use projected local incidence angle from DEM</incidenceAngleForGamma0>
+      <incidenceAngleForGamma0>Use local incidence angle from DEM</incidenceAngleForGamma0>
       <auxFile>Latest Auxiliary File</auxFile>
       <externalAuxFile/>
     </parameters>
@@ -108,7 +89,7 @@
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
       <file>${outputTargetFilePath}</file>
-      <formatName>GeoTIFF-BigTIFF</formatName>
+      <formatName>BEAM-DIMAP</formatName>
     </parameters>
   </node>
   <applicationData id="Presentation">
@@ -119,17 +100,14 @@
     <node id="Apply-Orbit-File">
       <displayPosition x="69.0" y="68.0"/>
     </node>
-    <node id="Calibration">
-      <displayPosition x="129.0" y="153.0"/>
-    </node>
     <node id="Speckle-Filter">
-      <displayPosition x="150.0" y="201.0"/>
+      <displayPosition x="169.0" y="140.0"/>
     </node>
     <node id="Terrain-Correction">
       <displayPosition x="269.0" y="232.0"/>
     </node>
     <node id="Write">
-      <displayPosition x="425.0" y="247.0"/>
+      <displayPosition x="432.0" y="292.0"/>
     </node>
   </applicationData>
 </graph>

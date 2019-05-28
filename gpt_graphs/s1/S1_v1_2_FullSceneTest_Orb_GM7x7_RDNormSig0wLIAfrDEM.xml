@@ -4,7 +4,7 @@
     <operator>Read</operator>
     <sources/>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>E:\JECAM\FullSceneTesting\Raw\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520.zip</file>
+      <file>${sourceProductManifestFile}</file>
       <formatName>SENTINEL-1</formatName>
     </parameters>
   </node>
@@ -16,7 +16,7 @@
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
       <orbitType>Sentinel Precise (Auto Download)</orbitType>
       <polyDegree>3</polyDegree>
-      <continueOnFail>false</continueOnFail>
+      <continueOnFail>true</continueOnFail>
     </parameters>
   </node>
   <node id="Speckle-Filter">
@@ -25,7 +25,7 @@
       <sourceProduct refid="Apply-Orbit-File"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands>Intensity_VH,Intensity_VV</sourceBands>
+      <sourceBands>Amplitude_VH,Intensity_VH,Amplitude_VV,Intensity_VV</sourceBands>
       <filter>Gamma Map</filter>
       <filterSizeX>7</filterSizeX>
       <filterSizeY>7</filterSizeY>
@@ -45,7 +45,7 @@
       <sourceProduct refid="Speckle-Filter"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <sourceBands>Intensity_VH,Intensity_VV</sourceBands>
+      <sourceBands/>
       <demName>SRTM 1Sec HGT</demName>
       <externalDEMFile/>
       <externalDEMNoDataValue>0.0</externalDEMNoDataValue>
@@ -67,9 +67,9 @@
       <nodataValueAtSea>true</nodataValueAtSea>
       <saveDEM>false</saveDEM>
       <saveLatLon>false</saveLatLon>
-      <saveIncidenceAngleFromEllipsoid>false</saveIncidenceAngleFromEllipsoid>
-      <saveLocalIncidenceAngle>false</saveLocalIncidenceAngle>
-      <saveProjectedLocalIncidenceAngle>false</saveProjectedLocalIncidenceAngle>
+      <saveIncidenceAngleFromEllipsoid>true</saveIncidenceAngleFromEllipsoid>
+      <saveLocalIncidenceAngle>true</saveLocalIncidenceAngle>
+      <saveProjectedLocalIncidenceAngle>true</saveProjectedLocalIncidenceAngle>
       <saveSelectedSourceBand>false</saveSelectedSourceBand>
       <outputComplex>false</outputComplex>
       <applyRadiometricNormalization>true</applyRadiometricNormalization>
@@ -88,8 +88,8 @@
       <sourceProduct refid="Terrain-Correction"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>E:\JECAM\FullSceneTesting\Raw\Processed\Output\2_Orb_Spk_RD\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520_Orb_Spk_TC.tif</file>
-      <formatName>GeoTIFF-BigTIFF</formatName>
+      <file>${outputTargetFilePath}</file>
+      <formatName>BEAM-DIMAP</formatName>
     </parameters>
   </node>
   <applicationData id="Presentation">
