@@ -55,6 +55,7 @@ class S1Downloader():
 
             return TaskStatus(True, f'Product zip already exists in dest dir {product["name"]}', None)
 
+        print(self.primary_dl_src)
 
         if self.primary_dl_src == 'USGS_ASF':
             result = self.asf_download_zip(product, dest_dir)
@@ -111,10 +112,13 @@ class S1Downloader():
 
         product_name = product['name'] + '.zip'
 
-        download_url = "{}/{}_{}{}/{}/{}".format(download_baseurl,
-                                                p_type,
-                                                resolution,
-                                                polarization,
+        if p_type == 'GRD':
+            p_type_res_pol = f"{p_type}_{resolution}{polarization}"
+        elif p_type == 'SLC':
+            p_type_res_pol = f"{p_type}"
+
+        download_url = "{}/{}/{}/{}".format(download_baseurl,
+                                                p_type_res_pol,
                                                 platform,
                                                 product_name)
 

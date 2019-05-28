@@ -16,7 +16,8 @@ from pathlib import Path
 import subprocess
 
 import asyncio
-
+import multiprocessing
+from subprocess import Popen, PIPE
 
 class GPTRunner():
     def __init__(self, product_path, target_path, graph_xml_file, arg_dict, process_id):
@@ -44,7 +45,7 @@ class GPTRunner():
         """
 
         source_product_manifest_file_str = 'sourceProductManifestFile'
-        source_product_manifest_file_val = str(Path(self.product_path))
+        source_product_manifest_file_val = Path(self.product_path)
 
         filter_size_str = 'filterSize'
         filter_size_val = str(self.arg_dict['filterSize'])
@@ -61,27 +62,24 @@ class GPTRunner():
         target_suffix = '_' + Path(self.graph_xml_file).name[:-4]
         target_file_name = self.product_name + target_suffix
 
-        output_target_file_path_val = str(Path(self.target_path, target_file_name))
-        
-        output_target_file_path_str2 = 'outputTargetFilePath2'
-        target_file_name2 = self.product_name + target_suffix + '2'
-
-        output_target_file_path_val2 = str(Path(self.target_path, target_file_name2))
+        output_target_file_path_val = Path(self.target_path, target_file_name))
 
         properties_dict = {}
 
-        with open(self.properties_file, 'w') as f:
-            f.write(f"{source_product_manifest_file_str}={source_product_manifest_file_val}\n")
-            properties_dict[source_product_manifest_file_str] = source_product_manifest_file_val
+        self.properties_path = Path(Path(self.target_path), f'process{self.process_id}.properties')
+
+        with open(str(self.properties_path), 'w') as f:
+            f.write(source_product_manifest_file_str + '=' + str(source_product_manifest_file_val) + "\n")
+            properties_dict[source_product_manifest_file_str] = str(source_product_manifest_file_val)
             f.write(f"{filter_size_str}={filter_size_val}\n")
             properties_dict[filter_size_str] = filter_size_val
             f.write(f"{window_size_str}={window_size_val}\n")
             properties_dict[window_size_str] = window_size_val
             f.write(f"{bit_depth_str}={bit_depth_val}\n")
             properties_dict[bit_depth_str] = bit_depth_val
-            f.write(f"{output_target_file_path_str}={output_target_file_path_val}\n")
+            f.write(output_target_file_path_str + '=' + str(output_target_file_path_val) + "\n")
             properties_dict[output_target_file_path_str] = output_target_file_path_val
-            f.write(f"{output_target_file_path_str2}={output_target_file_path_val2}\n")
+            f.write(output_target_file_path_str2 + '=' + str(output_target_file_path_val2) + "\n")
             properties_dict[output_target_file_path_str2] = output_target_file_path_val2
 
         return properties_dict
@@ -102,54 +100,56 @@ class GPTRunner():
             else:
                 break
 
-    @staticmethod
-    async def run(cmd):
+    def mp_run(self, command):
+        with Popen(command, shell=True, stdout=PIPE, bufsize=1) as sp:
+            for line in sp.stdout:
+                yield(line.decode('utf8').rstrip())
+
+    async def run(self, cmd):
 
         print(cmd)
+        
+        print('trying to run a gpt command')
+        
+        result_string = []
+        result_err_string = []
+        try:
+            for line in self.mp_run(cmd):
+                print(line)
+                result_string.append(line)
+                
+        except BaseException as e:
+            print(e)
+            print('something horrible happends when trying to run asyncio_create_subprocess_exec')
+        
 
-        asyncio.sleep(5)
+        final_result = True
 
-        return 'hello'
+        if len(result_string) > 0:
+            # print(f'[stdout]\n{stdout.decode()}')
+            for r in result_string:
+                print(r)
+                if r.lower().find('error'):
+                    final_result = False
+        if len(result_err_string) > 0:
+            # print(f'[stderr]\n{stderr.decode()}')
+            print(result_err_string)
 
-        # proc = await asyncio.create_subprocess_exec(
-        #     *cmd,
-        #     stdout=asyncio.subprocess.PIPE,
-        #     stderr=asyncio.subprocess.PIPE)
+        return final_result
 
-        # result_string = []
-        # result_err_string = []
-
-        # final_result = False
-
-        # await asyncio.wait([
-        #                     self.read_stream(proc.stdout, lambda x: print(f"STDOUT: {x.decode('utf-8').strip()}"), result_string, None),
-        #                     self.read_stream(proc.stderr, lambda x: print(f"STDERR: {x.decode('utf-8').strip()}"), result_err_string, None)
-        #                 ])
-
-        # print(f'[{cmd!r} exited with {proc.returncode}]')
-
-
-        # if len(result_string) > 0:
-        #     # print(f'[stdout]\n{stdout.decode()}')
-        #     print(result_string)
-        # if len(result_err_string) > 0:
-        #     # print(f'[stderr]\n{stderr.decode()}')
-        #     print(result_err_string)
-
-        # if proc.returncode != 0:
-        #     return False
-        # else:
-        #     return True
-
-    def generate_cmd(self):
-        gpt_path = Path(self.graph_xml_file).parents[1]
+    def run_graph(self):
         # gpt_path = Path('/home/cullens/Development/sentinel_downloader/gpt_graphs')
         # properties_path = Path('/home/cullens/Development/sentinel_downloader/', f'process{self.process_id}.properties')
 
         self.generate_properties_file()
 
-        bash_script_path = Path(gpt_path, 'processDataset.bash')
+        # bash_script_path = Path(gpt_path, 'processDataset.bash')
         # graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
+        # ${gptPath} ${graphXmlPath} -e -p ${parameterFilePath}
+
+        result = asyncio.run(self.run(
+            f'gpt {self.graph_xml_file} -e -p {self.properties_path}'.split(' ')
+        ))
 
         return f'gpt {self.graph_xml_file} -e -p {self.properties_file}'.split(' ')
         
