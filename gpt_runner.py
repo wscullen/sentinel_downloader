@@ -12,9 +12,9 @@ using the setup bash and bat scripts, this python script will:
 
 """
 
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import subprocess
-
+import platform
 import asyncio
 import multiprocessing
 from subprocess import Popen, PIPE
@@ -45,7 +45,12 @@ class GPTRunner():
         """
 
         source_product_manifest_file_str = 'sourceProductManifestFile'
-        source_product_manifest_file_val = Path(self.product_path)
+        
+        # Check out later, may be a better way to output paths on Windows
+        if platform.system() == "Windows":
+            source_product_manifest_file_val = str(Path(self.product_path)).replace('\\', '\\\\')
+        else:
+            source_product_manifest_file_val = Path(self.product_path)
 
         filter_size_str = 'filterSize'
         filter_size_val = str(self.arg_dict['filterSize'])
@@ -62,11 +67,17 @@ class GPTRunner():
         target_suffix = '_' + Path(self.graph_xml_file).name[:-4]
         target_file_name = self.product_name + target_suffix
 
-        output_target_file_path_val = Path(self.target_path, target_file_name))
+        # output_target_file_path_val = Path(self.target_path, target_file_name)
 
+        if platform.system() == "Windows":
+            output_target_file_path_val = str(Path(self.target_path, target_file_name)).replace('\\', '\\\\')
+        else:
+            output_target_file_path_val = Path(self.target_path, target_file_name)
         properties_dict = {}
 
         self.properties_path = Path(Path(self.target_path), f'process{self.process_id}.properties')
+
+        print(source_product_manifest_file_val)
 
         with open(str(self.properties_path), 'w') as f:
             f.write(source_product_manifest_file_str + '=' + str(source_product_manifest_file_val) + "\n")
@@ -79,8 +90,8 @@ class GPTRunner():
             properties_dict[bit_depth_str] = bit_depth_val
             f.write(output_target_file_path_str + '=' + str(output_target_file_path_val) + "\n")
             properties_dict[output_target_file_path_str] = output_target_file_path_val
-            f.write(output_target_file_path_str2 + '=' + str(output_target_file_path_val2) + "\n")
-            properties_dict[output_target_file_path_str2] = output_target_file_path_val2
+            # f.write(output_target_file_path_str2 + '=' + str(output_target_file_path_val2) + "\n")
+            # properties_dict[output_target_file_path_str2] = output_target_file_path_val2
 
         return properties_dict
 
@@ -100,10 +111,18 @@ class GPTRunner():
             else:
                 break
 
-    def mp_run(self, command):
-        with Popen(command, shell=True, stdout=PIPE, bufsize=1) as sp:
-            for line in sp.stdout:
-                yield(line.decode('utf8').rstrip())
+    def generate_cmd(self):
+        gpt_path = Path(self.graph_xml_file).parents[1]
+        # gpt_path = Path('/home/cullens/Development/sentinel_downloader/gpt_graphs')
+        # properties_path = Path('/home/cullens/Development/sentinel_downloader/', f'process{self.process_id}.properties')
+
+        self.generate_properties_file()
+
+        # bash_script_path = Path(gpt_path, 'processDataset.bash')
+        # graph_xml_path = Path(gpt_path, 's1', 'ao_co_sf_tc_flt32_all.xml')
+
+        return f'gpt {self.graph_xml_file} -e -p {self.properties_file}'.split(' ')
+        
 
     async def run(self, cmd):
 

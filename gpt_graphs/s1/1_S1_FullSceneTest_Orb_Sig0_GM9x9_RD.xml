@@ -4,7 +4,7 @@
     <operator>Read</operator>
     <sources/>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>E:\JECAM\FullSceneTesting\Raw\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520.zip</file>
+      <file>${sourceProductManifestFile}</file>
       <formatName>SENTINEL-1</formatName>
     </parameters>
   </node>
@@ -46,13 +46,13 @@
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
       <sourceBands/>
       <filter>Gamma Map</filter>
-      <filterSizeX>7</filterSizeX>
-      <filterSizeY>7</filterSizeY>
+      <filterSizeX>9</filterSizeX>
+      <filterSizeY>9</filterSizeY>
       <dampingFactor>2</dampingFactor>
       <estimateENL>true</estimateENL>
       <enl>1.0</enl>
       <numLooksStr>1</numLooksStr>
-      <windowSize>7x7</windowSize>
+      <windowSize>9x9</windowSize>
       <targetWindowSizeStr>3x3</targetWindowSizeStr>
       <sigmaStr>0.9</sigmaStr>
       <anSize>50</anSize>
@@ -107,7 +107,7 @@
       <sourceProduct refid="Terrain-Correction"/>
     </sources>
     <parameters class="com.bc.ceres.binding.dom.XppDomElement">
-      <file>E:\JECAM\FullSceneTesting\Raw\Processed\Output\1_Orb_Cal_Spk_RD\S1A_IW_GRDH_1SDV_20170529T133112_20170529T133141_016797_01BEA6_6520_Orb_Cal_Spk_TC.tif</file>
+      <file>${outputTargetFilePath}</file>
       <formatName>GeoTIFF-BigTIFF</formatName>
     </parameters>
   </node>
