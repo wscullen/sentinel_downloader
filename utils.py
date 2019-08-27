@@ -1,4 +1,7 @@
 from pathlib import Path
+from collections import namedtuple
+
+
 
 def get_utm_tile(product_name):
     """Get the UTM zone and number from the product name.
@@ -241,3 +244,5 @@ def get_xml_path():
         print("This file does not exist... somehow...")
     else:
         return file_path
+
+TaskStatus = namedtuple('TaskStatus', ['status', 'message', 'data'])

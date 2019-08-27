@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://scihub.copernicus.eu/dhus/odata/v1/Products(&apos;5ff875a1-bc41-4c43-adae-be4dfa03ad5f&apos;)/">
+    <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes</id>
+    <title type="text">Nodes</title>
+    <updated>2019-08-26T16:25:52.712Z</updated>
+    <author>
+        <name/>
+    </author>
+    <link href="Nodes" rel="self" title="Nodes"/>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')</id>
+        <title type="text">S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE</title>
+        <updated>2019-08-26T16:25:52.778Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes(&apos;S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE&apos;)" rel="edit" title="Node"/>
+        <link href="Nodes(&apos;S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE&apos;)/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes(&apos;S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE&apos;)/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes(&apos;S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE&apos;)/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes(&apos;S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE&apos;)/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes(&apos;S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE&apos;)/$value"/>
+        <m:properties>
+            <d:Id>S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE</d:Id>
+            <d:Name>S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE</d:Name>
+            <d:ContentType>Sentinel-2 User Product Level-1C</d:ContentType>
+            <d:ContentLength>0</d:ContentLength>
+            <d:ChildrenNumber>8</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+</feed>
+
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/">
+    <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes</id>
+    <title type="text">Nodes</title>
+    <updated>2019-08-26T18:28:34.45Z</updated>
+    <author>
+        <name/>
+    </author>
+    <link href="Nodes" rel="self" title="Nodes"/>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')</id>
+        <title type="text">L1C_T12UXA_A020859_20190620T182912</title>
+        <updated>2019-08-26T18:28:36.378Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('L1C_T12UXA_A020859_20190620T182912')" rel="edit" title="Node"/>
+        <link href="Nodes('L1C_T12UXA_A020859_20190620T182912')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('L1C_T12UXA_A020859_20190620T182912')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('L1C_T12UXA_A020859_20190620T182912')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('L1C_T12UXA_A020859_20190620T182912')/$value"/>
+        <m:properties>
+            <d:Id>L1C_T12UXA_A020859_20190620T182912</d:Id>Nodes('T12UXA_20190620T181921_TCI.jp2')/$value
+            <d:Name>L1C_T12UXA_A020859_20190620T182912</d:Name>
+            <d:ContentType>Level-1C Granule</d:ContentType>
+            <d:ContentLength>0</d:ContentLength>
+            <d:ChildrenNumber>4</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+</feed>
+
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/">
+    <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes</id>
+    <title type="text">Nodes</title>
+    <updated>2019-08-26T18:34:05.246Z</updated>
+    <author>
+        <name/>
+    </author>
+    <link href="Nodes" rel="self" title="Nodes"/>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('AUX_DATA')</id>
+        <title type="text">AUX_DATA</title>
+        <updated>2019-08-26T18:34:05.551Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('AUX_DATA')" rel="edit" title="Node"/>
+        <link href="Nodes('AUX_DATA')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('AUX_DATA')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('AUX_DATA')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('AUX_DATA')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('AUX_DATA')/$value"/>
+        <m:properties>
+            <d:Id>AUX_DATA</d:Id>
+            <d:Name>AUX_DATA</d:Name>
+            <d:ContentType>Auxiliary Data Folder</d:ContentType>
+            <d:ContentLength>0</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')</id>
+        <title type="text">IMG_DATA</title>
+        <updated>2019-08-26T18:34:05.819Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('IMG_DATA')" rel="edit" title="Node"/>
+        <link href="Nodes('IMG_DATA')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('IMG_DATA')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('IMG_DATA')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('IMG_DATA')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('IMG_DATA')/$value"/>
+        <m:properties>
+            <d:Id>IMG_DATA</d:Id>
+            <d:Name>IMG_DATA</d:Name>
+            <d:ContentType>Item</d:ContentType>
+            <d:ContentLength>0</d:ContentLength>
+            <d:ChildrenNumber>14</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('QI_DATA')</id>
+        <title type="text">QI_DATA</title>
+        <updated>2019-08-26T18:34:06.049Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('QI_DATA')" rel="edit" title="Node"/>
+        <link href="Nodes('QI_DATA')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('QI_DATA')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('QI_DATA')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('QI_DATA')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('QI_DATA')/$value"/>
+        <m:properties>
+            <d:Id>QI_DATA</d:Id>
+            <d:Name>QI_DATA</d:Name>
+            <d:ContentType>Quality Control Folder</d:ContentType>
+            <d:ContentLength>0</d:ContentLength>
+            <d:ChildrenNumber>71</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('MTD_TL.xml')</id>
+        <title type="text">MTD_TL.xml</title>
+        <updated>2019-08-26T18:34:19.335Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('MTD_TL.xml')" rel="edit" title="Node"/>
+        <link href="Nodes('MTD_TL.xml')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('MTD_TL.xml')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('MTD_TL.xml')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('MTD_TL.xml')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('MTD_TL.xml')/$value"/>
+        <m:properties>
+            <d:Id>MTD_TL.xml</d:Id>
+            <d:Name>MTD_TL.xml</d:Name>
+            <d:ContentType>XML Document (eXtensible Markup Language)</d:ContentType>
+            <d:ContentLength>629688</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+</feed>
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" 
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" 
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/">
+    <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes</id>
+    <title type="text">Nodes</title>
+    <updated>2019-08-26T18:36:54.925Z</updated>
+    <author>
+        <name/>
+    </author>
+    <link href="Nodes" rel="self" title="Nodes"/>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B01.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B01.jp2</title>
+        <updated>2019-08-26T18:37:03.464Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B01.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B01.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B01.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B01.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B01.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B01.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B01.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B01.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>3773508</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B02.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B02.jp2</title>
+        <updated>2019-08-26T18:37:12.264Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B02.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B02.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B02.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B02.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B02.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B02.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B02.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B02.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>118826055</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B03.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B03.jp2</title>
+        <updated>2019-08-26T18:37:19.68Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B03.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B03.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B03.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B03.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B03.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B03.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B03.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B03.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>118021674</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B04.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B04.jp2</title>
+        <updated>2019-08-26T18:37:28.159Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B04.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B04.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B04.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B04.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B04.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B04.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B04.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B04.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>121043618</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B05.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B05.jp2</title>
+        <updated>2019-08-26T18:37:39.269Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B05.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B05.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B05.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B05.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B05.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B05.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B05.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B05.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>33771442</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B06.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B06.jp2</title>
+        <updated>2019-08-26T18:37:48.694Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B06.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B06.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B06.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B06.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B06.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B06.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B06.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B06.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>33877621</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B07.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B07.jp2</title>
+        <updated>2019-08-26T18:37:58.141Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B07.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B07.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B07.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B07.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B07.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B07.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B07.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B07.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>33728452</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B08.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B08.jp2</title>
+        <updated>2019-08-26T18:38:08.408Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B08.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B08.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B08.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B08.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B08.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B08.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B08.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B08.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>125407184</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B09.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B09.jp2</title>
+        <updated>2019-08-26T18:38:17.804Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B09.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B09.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B09.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B09.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B09.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B09.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B09.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B09.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>3742480</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B10.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B10.jp2</title>
+        <updated>2019-08-26T18:38:28.591Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B10.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B10.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B10.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B10.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B10.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B10.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B10.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B10.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>2454036</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B11.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B11.jp2</title>
+        <updated>2019-08-26T18:38:38.694Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B11.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B11.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B11.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B11.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B11.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B11.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B11.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B11.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>33845250</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B12.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B12.jp2</title>
+        <updated>2019-08-26T18:38:47.533Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B12.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B12.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B12.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B12.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B12.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B12.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B12.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B12.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>33870842</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_B8A.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_B8A.jp2</title>
+        <updated>2019-08-26T18:38:55.486Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_B8A.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_B8A.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_B8A.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B8A.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_B8A.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_B8A.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_B8A.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_B8A.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>33741006</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('5ff875a1-bc41-4c43-adae-be4dfa03ad5f')/Nodes('S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE')/Nodes('GRANULE')/Nodes('L1C_T12UXA_A020859_20190620T182912')/Nodes('IMG_DATA')/Nodes('T12UXA_20190620T181921_TCI.jp2')</id>
+        <title type="text">T12UXA_20190620T181921_TCI.jp2</title>
+        <updated>2019-08-26T18:39:06.851Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes('T12UXA_20190620T181921_TCI.jp2')" rel="edit" title="Node"/>
+        <link href="Nodes('T12UXA_20190620T181921_TCI.jp2')/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes('T12UXA_20190620T181921_TCI.jp2')/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_TCI.jp2')/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes('T12UXA_20190620T181921_TCI.jp2')/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes('T12UXA_20190620T181921_TCI.jp2')/$value"/>
+        <m:properties>
+            <d:Id>T12UXA_20190620T181921_TCI.jp2</d:Id>
+            <d:Name>T12UXA_20190620T181921_TCI.jp2</d:Name>
+            <d:ContentType>JPEG2000</d:ContentType>
+            <d:ContentLength>123602761</d:ContentLength>
+            <d:ChildrenNumber>1</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+</feed>

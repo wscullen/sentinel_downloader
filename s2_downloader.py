@@ -6,15 +6,19 @@ import requests
 
 import collections
 
-from transfer_monitor import TransferMonitor
+from .transfer_monitor import TransferMonitor
 
-from utils import TaskStatus
+from .utils import TaskStatus
+
+from collections import OrderedDict
+from lxml import etree
+from pathlib import Path
 
 
-class S2Downloader():
+class S2Downloader:
     def __init__(self, config_path, username=None, password=None):
         self.config_path = config_path
-        self.copernicus_url = 'https://scihub.copernicus.eu/dhus'
+        self.copernicus_url = "https://scihub.copernicus.eu/dhus"
 
         if os.path.exists(self.config_path):
             with open(self.config_path) as f:
@@ -22,71 +26,73 @@ class S2Downloader():
         else:
             self.config = None
 
-            raise Exception
+        self.username = username or os.environ["ESA_SCIHUB_USER"]
+        self.password = password or os.environ["ESA_SCIHUB_PASS"]
 
-        self.username = username or os.environ['ESA_SCIHUB_USER']
-        self.password = password or os.environ['ESA_SCIHUB_PASS']
+        self.api = SentinelAPI(
+            self.username,
+            self.password,
+            "https://scihub.copernicus.eu/dhus",
+            show_progressbars=True,
+        )
 
-        self.api = SentinelAPI(self.username,
-                               self.password,
-                               'https://scihub.copernicus.eu/dhus',
-                               show_progressbars=True)
-
-    def search_for_products(self, dataset_name, polygon, query_dict, just_entity_ids=False):
+    def search_for_products(
+        self, dataset_name, polygon, query_dict, just_entity_ids=False
+    ):
         print(query_dict)
         producttype = None
         filename = None
         sensormode = None
 
+        if "producttype" in query_dict.keys():
+            producttype = query_dict["producttype"]
 
-        if 'producttype' in query_dict.keys():
-            producttype = query_dict['producttype']
+        if "filename" in query_dict.keys():
+            filename = query_dict["filename"]
 
-        if 'filename' in query_dict.keys():
-            filename = query_dict['filename']
-
-        if 'sensoroperationalmode' in query_dict.keys():
-            sensormode = query_dict['sensoroperationalmode']
-
+        if "sensoroperationalmode" in query_dict.keys():
+            sensormode = query_dict["sensoroperationalmode"]
 
         print(producttype, filename, sensormode)
 
-
-        results = self.api.query(area=polygon,
-                                 filename=filename,
-                                 producttype=producttype,
-                                 sensoroperationalmode=sensormode,
-                                 date=query_dict['date'],
-                                 area_relation='Intersects',
-                                 platformname=dataset_name,)
+        results = self.api.query(
+            area=polygon,
+            filename=filename,
+            producttype=producttype,
+            sensoroperationalmode=sensormode,
+            date=query_dict["date"],
+            area_relation="Intersects",
+            platformname=dataset_name,
+        )
         print(results)
         return results
 
-    def search_for_products_by_name(self, dataset_name, names, query_dict, just_entity_ids=False):
+    def search_for_products_by_name(
+        self, dataset_name, names, query_dict, just_entity_ids=False
+    ):
 
         print(query_dict)
         producttype = None
         filename = None
         sensormode = None
 
+        if "producttype" in query_dict.keys():
+            producttype = query_dict["producttype"]
 
-        if 'producttype' in query_dict.keys():
-            producttype = query_dict['producttype']
+        if "filename" in query_dict.keys():
+            filename = query_dict["filename"]
 
-        if 'filename' in query_dict.keys():
-            filename = query_dict['filename']
-
-        if 'sensoroperationalmode' in query_dict.keys():
-            sensormode = query_dict['sensoroperationalmode']
+        if "sensoroperationalmode" in query_dict.keys():
+            sensormode = query_dict["sensoroperationalmode"]
 
         names_formatted_for_search = []
         for name in names:
-            if name[:3] == 'L1C':
-                name_parts = name.split('_')
-                usgs_name = f'*S2*_MSIL1C_{name_parts[3][:8]}*{name_parts[1]}*'
-                names_formatted_for_search.append(f'(filename:{usgs_name})')
+            if name[:3] == "L1C":
+                name_parts = name.split("_")
+                usgs_name = f"*S2*_MSIL1C_{name_parts[3][:8]}*{name_parts[1]}*"
+                names_formatted_for_search.append(f"(filename:{usgs_name})")
             else:
-                names_formatted_for_search.append(f'(filename:{name}*)')
+                names_formatted_for_search.append(f"(filename:{name}*)")
 
         names_raw_query_str = " or ".join(names_formatted_for_search)
 
@@ -96,27 +102,52 @@ class S2Downloader():
         print(producttype, filename, sensormode)
         results = collections.OrderedDict([])
         for name in names:
-            print('testing')
+            print("testing")
             result = self.api.query(raw=name)
             results.update(result)
 
         print(results)
         return results
 
+    def search_for_products_by_tile(self, tiles, date_range, just_entity_ids=False):
 
-    def get_esa_product_name(self, platformname, relative_orbit_number, filename_query, sensingdate):
+        products = OrderedDict([])
+        query_kwargs = {
+            "platformname": "Sentinel-2",
+            "producttype": "S2MSI1C",
+            "date": (date_range[0], date_range[1]),
+        }
+
+        for tile in tiles:
+            kw = query_kwargs.copy()
+            kw["tileid"] = tile  # products after 2017-03-31
+            pp = self.api.query(**kw)
+            products.update(pp)
+
+        for prod in products:
+            products[prod]["api_source"] = "esa_scihub"
+        print(products)
+        return products
+
+    def get_esa_product_name(
+        self, platformname, relative_orbit_number, filename_query, sensingdate
+    ):
         """Use this function to get the correct product name from the ESA"""
         # (platformname:Sentinel-2 AND relativeorbitnumber:41 AND filename:*T13UGS* AND beginPosition:[2018-10-22T00:00:00.000Z TO 2018-10-23T00:00:00.000Z])
         end_date = sensingdate + datetime.timedelta(days=1)
-        date_tuple = (sensingdate.strftime('%Y%m%d'),
-                      end_date.strftime('%Y%m%d'))
+        date_tuple = (sensingdate.strftime("%Y%m%d"), end_date.strftime("%Y%m%d"))
 
-        results = self.api.query(date=date_tuple,
-                                 platformname=platformname,
-                                 relativeorbitnumber=relative_orbit_number,
-                                 filename=filename_query)
+        results = self.api.query(
+            date=date_tuple,
+            platformname=platformname,
+            relativeorbitnumber=relative_orbit_number,
+            filename=filename_query,
+        )
 
         print(results)
+
+        for result in results:
+            result["api_source"] = "esa_scihub"
 
         return results
 
@@ -193,6 +224,135 @@ class S2Downloader():
         # return 'success'
         pass
 
+    def build_download_url(self, tile_id):
+        url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/Nodes"
+        # https://scihub.copernicus.eu/dhus/odata/v1/Products('a8f318d3-b95f-44f6-aa7e-bccbe4b00c4f')/
+        # Nodes('S2B_MSIL1C_20190628T182929_N0207_R027_T12UUA_20190628T221748.SAFE')/
+        # Nodes('GRANULE')/
+        # Nodes('L1C_T12UUA_A012065_20190628T183312')/
+        # Nodes('IMG_DATA')/Nodes
+        r = requests.get(url=url, auth=(self.username, self.password))
+        print(r.status_code)
+        print(r.content)
+        print(r.text)
+        XHTML_NAMESPACE = "http://www.w3.org/2005/Atom"
+        XHTML = "{%s}" % XHTML_NAMESPACE
+
+        NSMAP = {None: XHTML_NAMESPACE}  # the default namespace (no prefix)
+
+        # xhtml = etree.Element(XHTML + "html", nsmap=NSMAP)  #
+        xml = r.text.encode("utf-8")
+        parser = etree.XMLParser(ns_clean=True, recover=True, encoding="utf-8")
+        h = etree.fromstring(xml, parser=parser)
+
+        result = h.find("entry/id", h.nsmap)
+        print(result.text)
+
+        product_name = result.text.split("/")[-1][7:-2]
+        print("########### product name")
+        print(product_name)
+
+        next_url = f"{result.text}/Nodes('GRANULE')/Nodes"
+
+        next_r = requests.get(url=next_url, auth=(self.username, self.password))
+
+        xml = next_r.text.encode("utf-8")
+        h = etree.fromstring(xml, parser=parser)
+        print(next_r.text)
+        result = h.find("entry/id", h.nsmap)
+        print(result.text)
+        granule_name = result.text.split("/")[-1][7:-2]
+        print("############# granule name")
+        print(
+            granule_name
+        )  # 'T12UXA_20190620T181921_TCI.jp2' L1C_T12UXA_A020859_20190620T182912  S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE
+        tci_name = f"{granule_name.split('_')[1]}_{product_name.split('_')[2]}_TCI.jp2"
+        next_url = f"{result.text}/Nodes('IMG_DATA')/Nodes('{tci_name}')/$value"
+
+        return next_url
+        # next_r = requests.get(url=next_url, auth=(self.username, self.password))
+
+        # xml = next_r.text.encode("utf-8")
+        # h = etree.fromstring(xml, parser=parser)
+        # print(next_r.text)
+        # result = h.find("entry/id", h.nsmap)
+        # print(result.text)
+
+        # print(len(root))
+        # for e in root:
+        #     print(e.tag)
+        # r = root.xpath(XHTML + "entry", namespaces=NSMAP)
+
+        # print(r)
+
+    def download_tci(self, tile_id, directory):
+
+        url = self.build_download_url(tile_id)
+
+        file_name = url.split("/")[-2][7:-2]
+
+        print(file_name)
+
+        full_file_path = Path(directory, file_name)
+        print(url)
+        print(full_file_path)
+
+        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+
+        print(r.status_code)
+
+        if not os.path.isfile(full_file_path):
+            try:
+
+                transfer = TransferMonitor(full_file_path, 1)
+                with open(full_file_path, "wb") as f:
+                    for chunk in r.iter_content(chunk_size=1000000):
+                        f.write(chunk)
+                transfer.finish()
+
+            except BaseException as e:
+                return TaskStatus(
+                    False, "An exception occured while trying to download.", e
+                )
+            else:
+                return TaskStatus(True, "Download successful", full_file_path)
+        else:
+            return TaskStatus(
+                False, "Requested file to download already exists.", full_file_path
+            )
+
+    def download_fullproduct(self, tile_id, tile_name, directory):
+
+        url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
+
+        full_file_path = Path(directory, tile_name + ".zip")
+        print(url)
+        print(full_file_path)
+
+        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+
+        print(r.status_code)
+
+        if not os.path.isfile(full_file_path):
+            try:
+
+                transfer = TransferMonitor(full_file_path, 1)
+                with open(full_file_path, "wb") as f:
+                    for chunk in r.iter_content(chunk_size=1000000):
+                        f.write(chunk)
+                transfer.finish()
+
+            except BaseException as e:
+                return TaskStatus(
+                    False, "An exception occured while trying to download.", e
+                )
+            else:
+                return TaskStatus(True, "Download successful", full_file_path)
+        else:
+            return TaskStatus(
+                False, "Requested file to download already exists.", full_file_path
+            )
+
     def download_file(self, url, download_name, download_id):
         """Download from scihub using requests library and their api.
         URL of the form:
@@ -211,18 +371,21 @@ class S2Downloader():
             try:
 
                 transfer = TransferMonitor(download_name, download_id)
-                with open(download_name, 'wb') as f:
+                with open(download_name, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1000000):
                         f.write(chunk)
                 transfer.finish()
 
             except BaseException as e:
-                return TaskStatus(False, 'An exception occured while trying to download.', e)
+                return TaskStatus(
+                    False, "An exception occured while trying to download.", e
+                )
             else:
-                return TaskStatus(True, 'Download successful', download_name)
+                return TaskStatus(True, "Download successful", download_name)
         else:
-            return TaskStatus(False, 'Requested file to download already exists.', download_name)
-
+            return TaskStatus(
+                False, "Requested file to download already exists.", download_name
+            )
 
         pass
 
