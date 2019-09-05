@@ -1,6 +1,9 @@
 import unittest
 
-import s2d2_proj.sentinel_downloader.s2_downloader as s2_downloader
+#import s2d2_proj.sentinel_downloader.s2_downloader as s2_downloader
+
+import s2_downloader
+
 import os
 
 from pathlib import Path
@@ -44,6 +47,31 @@ class TestS2Downloader(unittest.TestCase):
         )
         print(result)
         self.assertTrue(True)
+
+    def test_search_for_products_by_tile(self):
+        """ Test search for products when an L2A product is available """
+        # self, tiles, date_range, just_entity_ids=False
+
+        # S2A_MSIL2A_20190904T102021_N0213_R065_T32UPV_20190904T140237
+
+        s2_dl = s2_downloader.S2Downloader("")
+
+        result = s2_dl.search_for_products_by_tile(
+            ['32UPV'],
+            ('20190904', '20190905'),
+        )
+        print(result)
+
+    def test_search_for_products_by_tile_directly(self):
+        
+        s2_dl = s2_downloader.S2Downloader("")
+
+        daterange = ('20190618', '20190619')
+        print(daterange)
+        result = s2_dl.search_for_products_by_tile_directly('20TMS', daterange)
+        
+        print(result)
+
 
     # def test_properties_file_creation(self):
 

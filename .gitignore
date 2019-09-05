@@ -2,3 +2,5 @@
 *.properties
 __pycache__
 .vscode
+.env
+Pipfile.lock
