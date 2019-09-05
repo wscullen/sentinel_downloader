@@ -111,7 +111,7 @@ class S2Downloader:
         print(results)
         return results
 
-    def search_for_products_by_tile(self, tiles, date_range, just_entity_ids=False):
+    def search_for_products_by_tile(self, tiles, date_range, just_entity_ids=False, product_type=None):
 
         products = OrderedDict([])
         
@@ -119,6 +119,12 @@ class S2Downloader:
             "platformname": "Sentinel-2",
             "date": (date_range[0], date_range[1]),
         }
+
+        # S2MSI1C, S2MS2Ap
+        if product_type == 'L1C':
+            query_kwargs['producttype'] = "S2MSI1C"
+        elif product_type == 'L2A':
+            query_kwargs['producttype'] = "S2MSI2A"
 
         for tile in tiles:
             kw = query_kwargs.copy()
