@@ -2,7 +2,7 @@ import unittest
 
 #import s2d2_proj.sentinel_downloader.s2_downloader as s2_downloader
 
-import s2_downloader
+from .. import s2_downloader
 
 import os
 

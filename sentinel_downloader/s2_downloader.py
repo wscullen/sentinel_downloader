@@ -8,9 +8,9 @@ from requests.auth import HTTPBasicAuth
 
 import collections
 
-from transfer_monitor import TransferMonitor
+from .transfer_monitor import TransferMonitor
 
-from utils import TaskStatus
+from .utils import TaskStatus
 
 from collections import OrderedDict
 from lxml import etree
