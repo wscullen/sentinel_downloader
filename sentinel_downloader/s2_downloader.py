@@ -38,6 +38,9 @@ class S2Downloader:
             show_progressbars=True,
         )
 
+    def __del__(self):
+        pass
+
     def search_for_products(
         self, dataset_name, polygon, query_dict, just_entity_ids=False
     ):
@@ -280,20 +283,6 @@ class S2Downloader:
         next_url = f"{result.text}/Nodes('IMG_DATA')/Nodes('{tci_name}')/$value"
 
         return next_url
-        # next_r = requests.get(url=next_url, auth=(self.username, self.password))
-
-        # xml = next_r.text.encode("utf-8")
-        # h = etree.fromstring(xml, parser=parser)
-        # print(next_r.text)
-        # result = h.find("entry/id", h.nsmap)
-        # print(result.text)
-
-        # print(len(root))
-        # for e in root:
-        #     print(e.tag)
-        # r = root.xpath(XHTML + "entry", namespaces=NSMAP)
-
-        # print(r)
 
     def download_tci(self, tile_id, directory):
 
