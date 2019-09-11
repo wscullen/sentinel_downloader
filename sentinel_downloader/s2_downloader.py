@@ -346,10 +346,10 @@ class S2Downloader:
                     False, "An exception occured while trying to download.", e
                 )
             else:
-                return TaskStatus(True, "Download successful", full_file_path)
+                return TaskStatus(True, "Download successful", str(full_file_path))
         else:
             return TaskStatus(
-                True, "Requested file to download already exists.", full_file_path
+                True, "Requested file to download already exists.", str(full_file_path)
             )
 
     def download_file(self, url, download_name, download_id):
