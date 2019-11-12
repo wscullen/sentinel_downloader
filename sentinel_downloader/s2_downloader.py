@@ -114,31 +114,33 @@ class S2Downloader:
         print(results)
         return results
 
-    def search_for_products_by_tile(self, tiles, date_range, just_entity_ids=False, product_type=None):
+    def search_for_products_by_tile(
+        self, tiles, date_range, just_entity_ids=False, product_type=None
+    ):
 
         products = OrderedDict([])
-        
+
         query_kwargs = {
             "platformname": "Sentinel-2",
             "date": (date_range[0], date_range[1]),
         }
 
         # S2MSI1C, S2MS2Ap
-        if product_type == 'L1C':
-            query_kwargs['producttype'] = "S2MSI1C"
-        elif product_type == 'L2A':
-            query_kwargs['producttype'] = "S2MSI2A"
+        if product_type == "L1C":
+            query_kwargs["producttype"] = "S2MSI1C"
+        elif product_type == "L2A":
+            query_kwargs["producttype"] = "S2MSI2A"
 
         for tile in tiles:
             kw = query_kwargs.copy()
-            kw["filename"] = f'*_T{tile}_*'  # products after 2017-03-31
+            kw["filename"] = f"*_T{tile}_*"  # products after 2017-03-31
             pp = self.api.query(**kw)
             print(pp)
             products.update(pp)
 
         for prod in products:
             products[prod]["api_source"] = "esa_scihub"
-        
+
         print(products)
         return products
 
@@ -296,7 +298,9 @@ class S2Downloader:
         print(url)
         print(full_file_path)
 
-        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        r = requests.get(
+            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+        )
 
         print(r.status_code)
 
@@ -328,7 +332,9 @@ class S2Downloader:
         print(url)
         print(full_file_path)
 
-        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        r = requests.get(
+            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+        )
 
         print(r.status_code)
 
@@ -362,7 +368,9 @@ class S2Downloader:
         Maximum concurrent downloads is 2.
         """
 
-        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        r = requests.get(
+            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+        )
 
         print(r.status_code)
 
@@ -437,7 +445,7 @@ class S2Downloader:
 
         # return 'Failure'
         pass
-    
+
     def search_for_products_by_tile_directly(self, tile, daterange):
         """
                     #         producttype:	Used to perform a search based on the product type.
@@ -453,28 +461,26 @@ class S2Downloader:
             # time in yyyy-MM-ddThh:mm:ss.SSSZ (ISO8601 format)
         """
 
-        date_start = dt.strptime(daterange[0], '%Y%m%d')
+        date_start = dt.strptime(daterange[0], "%Y%m%d")
         date_start.replace(tzinfo=datetime.timezone.utc)
 
-        date_end = dt.strptime(daterange[1], '%Y%m%d')
+        date_end = dt.strptime(daterange[1], "%Y%m%d")
         date_end.replace(tzinfo=datetime.timezone.utc)
 
-        date_start_string = date_start.isoformat(timespec='milliseconds') + 'Z'
-        date_end_string = date_end.isoformat(timespec='milliseconds') + 'Z'
+        date_start_string = date_start.isoformat(timespec="milliseconds") + "Z"
+        date_end_string = date_end.isoformat(timespec="milliseconds") + "Z"
 
-        date_query = f'beginposition:[{date_start_string} TO {date_end_string}]'
-        platform_query = 'platformname:Sentinel-2'
-        filename_query = f'filename:*_T{tile}_*'
-   
-        query_url = f'https://scihub.copernicus.eu/dhus/search?q=({date_query} AND {platform_query} AND {filename_query})'
-        
+        date_query = f"beginposition:[{date_start_string} TO {date_end_string}]"
+        platform_query = "platformname:Sentinel-2"
+        filename_query = f"filename:*_T{tile}_*"
+
+        query_url = f"https://scihub.copernicus.eu/dhus/search?q=({date_query} AND {platform_query} AND {filename_query})"
+
         r = requests.get(query_url, auth=HTTPBasicAuth(self.username, self.password))
         print(r.status_code)
         print(r.content)
         print(r.headers)
 
-
-        
         # if r.status_code == 200:
         #     result = r.json()
         #     return result
