@@ -10,26 +10,72 @@ import collections
 
 from .transfer_monitor import TransferMonitor
 
-from .utils import TaskStatus
+from .utils import TaskStatus, ConfigFileProblem, ConfigValueMissing
 
 from collections import OrderedDict
 from lxml import etree
 from pathlib import Path
 
+import logging
+import yaml
 
 class S2Downloader:
-    def __init__(self, config_path, username=None, password=None):
-        self.config_path = config_path
+    def __init__(self, path_to_config='config.yaml', username=None, password=None):
+        
+        # create logger
+        self.logger = logging.getLogger(__name__)
+
+        # create console handler and set level to debug
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        ch.setFormatter(formatter)
+        self.logger.addHandler(ch)
+
+        # Load config from config.yaml
+        try:
+            with open(path_to_config, "r") as stream:
+                config = yaml.safe_load(stream)
+
+        except yaml.YAMLError as exc:
+            self.logger.error("Problem loading config... exiting...")
+            raise ConfigFileProblem
+
+        except FileNotFoundError as e:
+            self.logger.error(f"Missing config file with path {path_to_config}")
+            raise e
+
+        except BaseException as e:
+            self.logger.error('Unknown problem occurred while loading config')
+
+        required_config_keys = [
+            "ESA_SCIHUB_USER",
+            "ESA_SCIHUB_PASS",
+        ]
+
+        self.logger.debug(config.keys())
+
+        try:
+            config.keys()
+        except AttributeError as e:
+            raise ConfigFileProblem
+
+        # Find the difference between sets
+        # required_config_keys can be a sub set of config.keys()
+        missing_keys = set(required_config_keys) - set(list(config.keys()))
+
+        if len(list(missing_keys)) != 0:
+            self.logger.error(f"Config file loaded but missing critical vars, {missing_keys}")
+            raise ConfigValueMissing
+
+        self.username = config['ESA_SCIHUB_USER']
+        self.password = config['ESA_SCIHUB_PASS']
+
+        if not (bool(self.username) and bool(self.password)):
+            self.logger.error('Missing auth env vars, MISSING USERNAME OR PASSWORD')
+            raise ConfigValueMissing
+                
         self.copernicus_url = "https://scihub.copernicus.eu/dhus"
-
-        if os.path.exists(self.config_path):
-            with open(self.config_path) as f:
-                self.config = json.load(f)
-        else:
-            self.config = None
-
-        self.username = username or os.environ["ESA_SCIHUB_USER"]
-        self.password = password or os.environ["ESA_SCIHUB_PASS"]
 
         self.api = SentinelAPI(
             self.username,
