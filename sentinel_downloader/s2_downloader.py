@@ -19,16 +19,19 @@ from pathlib import Path
 import logging
 import yaml
 
+
 class S2Downloader:
-    def __init__(self, path_to_config='config.yaml', username=None, password=None):
-        
+    def __init__(self, path_to_config="config.yaml", username=None, password=None):
+
         # create logger
         self.logger = logging.getLogger(__name__)
 
         # create console handler and set level to debug
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
         ch.setFormatter(formatter)
         self.logger.addHandler(ch)
 
@@ -46,7 +49,7 @@ class S2Downloader:
             raise e
 
         except BaseException as e:
-            self.logger.error('Unknown problem occurred while loading config')
+            self.logger.error("Unknown problem occurred while loading config")
 
         required_config_keys = [
             "ESA_SCIHUB_USER",
@@ -65,16 +68,18 @@ class S2Downloader:
         missing_keys = set(required_config_keys) - set(list(config.keys()))
 
         if len(list(missing_keys)) != 0:
-            self.logger.error(f"Config file loaded but missing critical vars, {missing_keys}")
+            self.logger.error(
+                f"Config file loaded but missing critical vars, {missing_keys}"
+            )
             raise ConfigValueMissing
 
-        self.username = config['ESA_SCIHUB_USER']
-        self.password = config['ESA_SCIHUB_PASS']
+        self.username = config["ESA_SCIHUB_USER"]
+        self.password = config["ESA_SCIHUB_PASS"]
 
         if not (bool(self.username) and bool(self.password)):
-            self.logger.error('Missing auth env vars, MISSING USERNAME OR PASSWORD')
+            self.logger.error("Missing auth env vars, MISSING USERNAME OR PASSWORD")
             raise ConfigValueMissing
-                
+
         self.copernicus_url = "https://scihub.copernicus.eu/dhus"
 
         self.api = SentinelAPI(
@@ -394,6 +399,7 @@ class S2Downloader:
                 transfer.finish()
 
             except BaseException as e:
+                transfer.finish()
                 return TaskStatus(
                     False, "An exception occured while trying to download.", e
                 )
