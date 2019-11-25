@@ -321,14 +321,17 @@ class S2Downloader:
             )
 
     def download_fullproduct(self, tile_id, tile_name, directory):
-
+        
         url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
 
         full_file_path = Path(directory, tile_name + ".zip")
         print(url)
         print(full_file_path)
-
-        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        try:
+             r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        except BaseException as e:
+            print(e)
+            return TaskStatus(False, "An exception occured while trying to download.", e)
 
         print(r.status_code)
 
