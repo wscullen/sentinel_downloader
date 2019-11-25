@@ -246,3 +246,12 @@ def get_xml_path():
         return file_path
 
 TaskStatus = namedtuple('TaskStatus', ['status', 'message', 'data'])
+
+
+
+class ConfigFileProblem(Exception):
+    pass
+
+
+class ConfigValueMissing(Exception):
+    pass

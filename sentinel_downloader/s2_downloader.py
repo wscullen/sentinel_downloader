@@ -10,26 +10,77 @@ import collections
 
 from .transfer_monitor import TransferMonitor
 
-from .utils import TaskStatus
+from .utils import TaskStatus, ConfigFileProblem, ConfigValueMissing
 
 from collections import OrderedDict
 from lxml import etree
 from pathlib import Path
 
+import logging
+import yaml
+
 
 class S2Downloader:
-    def __init__(self, config_path, username=None, password=None):
-        self.config_path = config_path
+    def __init__(self, path_to_config="config.yaml", username=None, password=None):
+
+        # create logger
+        self.logger = logging.getLogger(__name__)
+
+        # create console handler and set level to debug
+        ch = logging.StreamHandler()
+        ch.setLevel(logging.DEBUG)
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        ch.setFormatter(formatter)
+        self.logger.addHandler(ch)
+
+        # Load config from config.yaml
+        try:
+            with open(path_to_config, "r") as stream:
+                config = yaml.safe_load(stream)
+
+        except yaml.YAMLError as exc:
+            self.logger.error("Problem loading config... exiting...")
+            raise ConfigFileProblem
+
+        except FileNotFoundError as e:
+            self.logger.error(f"Missing config file with path {path_to_config}")
+            raise e
+
+        except BaseException as e:
+            self.logger.error("Unknown problem occurred while loading config")
+
+        required_config_keys = [
+            "ESA_SCIHUB_USER",
+            "ESA_SCIHUB_PASS",
+        ]
+
+        self.logger.debug(config.keys())
+
+        try:
+            config.keys()
+        except AttributeError as e:
+            raise ConfigFileProblem
+
+        # Find the difference between sets
+        # required_config_keys can be a sub set of config.keys()
+        missing_keys = set(required_config_keys) - set(list(config.keys()))
+
+        if len(list(missing_keys)) != 0:
+            self.logger.error(
+                f"Config file loaded but missing critical vars, {missing_keys}"
+            )
+            raise ConfigValueMissing
+
+        self.username = config["ESA_SCIHUB_USER"]
+        self.password = config["ESA_SCIHUB_PASS"]
+
+        if not (bool(self.username) and bool(self.password)):
+            self.logger.error("Missing auth env vars, MISSING USERNAME OR PASSWORD")
+            raise ConfigValueMissing
+
         self.copernicus_url = "https://scihub.copernicus.eu/dhus"
-
-        if os.path.exists(self.config_path):
-            with open(self.config_path) as f:
-                self.config = json.load(f)
-        else:
-            self.config = None
-
-        self.username = username or os.environ["ESA_SCIHUB_USER"]
-        self.password = password or os.environ["ESA_SCIHUB_PASS"]
 
         self.api = SentinelAPI(
             self.username,
@@ -114,31 +165,33 @@ class S2Downloader:
         print(results)
         return results
 
-    def search_for_products_by_tile(self, tiles, date_range, just_entity_ids=False, product_type=None):
+    def search_for_products_by_tile(
+        self, tiles, date_range, just_entity_ids=False, product_type=None
+    ):
 
         products = OrderedDict([])
-        
+
         query_kwargs = {
             "platformname": "Sentinel-2",
             "date": (date_range[0], date_range[1]),
         }
 
         # S2MSI1C, S2MS2Ap
-        if product_type == 'L1C':
-            query_kwargs['producttype'] = "S2MSI1C"
-        elif product_type == 'L2A':
-            query_kwargs['producttype'] = "S2MSI2A"
+        if product_type == "L1C":
+            query_kwargs["producttype"] = "S2MSI1C"
+        elif product_type == "L2A":
+            query_kwargs["producttype"] = "S2MSI2A"
 
         for tile in tiles:
             kw = query_kwargs.copy()
-            kw["filename"] = f'*_T{tile}_*'  # products after 2017-03-31
+            kw["filename"] = f"*_T{tile}_*"  # products after 2017-03-31
             pp = self.api.query(**kw)
             print(pp)
             products.update(pp)
 
         for prod in products:
             products[prod]["api_source"] = "esa_scihub"
-        
+
         print(products)
         return products
 
@@ -296,7 +349,9 @@ class S2Downloader:
         print(url)
         print(full_file_path)
 
-        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        r = requests.get(
+            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+        )
 
         print(r.status_code)
 
@@ -345,6 +400,7 @@ class S2Downloader:
                 transfer.finish()
 
             except BaseException as e:
+                transfer.finish()
                 return TaskStatus(
                     False, "An exception occured while trying to download.", e
                 )
@@ -365,7 +421,9 @@ class S2Downloader:
         Maximum concurrent downloads is 2.
         """
 
-        r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        r = requests.get(
+            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+        )
 
         print(r.status_code)
 
@@ -440,7 +498,7 @@ class S2Downloader:
 
         # return 'Failure'
         pass
-    
+
     def search_for_products_by_tile_directly(self, tile, daterange):
         """
                     #         producttype:	Used to perform a search based on the product type.
@@ -456,28 +514,26 @@ class S2Downloader:
             # time in yyyy-MM-ddThh:mm:ss.SSSZ (ISO8601 format)
         """
 
-        date_start = dt.strptime(daterange[0], '%Y%m%d')
+        date_start = dt.strptime(daterange[0], "%Y%m%d")
         date_start.replace(tzinfo=datetime.timezone.utc)
 
-        date_end = dt.strptime(daterange[1], '%Y%m%d')
+        date_end = dt.strptime(daterange[1], "%Y%m%d")
         date_end.replace(tzinfo=datetime.timezone.utc)
 
-        date_start_string = date_start.isoformat(timespec='milliseconds') + 'Z'
-        date_end_string = date_end.isoformat(timespec='milliseconds') + 'Z'
+        date_start_string = date_start.isoformat(timespec="milliseconds") + "Z"
+        date_end_string = date_end.isoformat(timespec="milliseconds") + "Z"
 
-        date_query = f'beginposition:[{date_start_string} TO {date_end_string}]'
-        platform_query = 'platformname:Sentinel-2'
-        filename_query = f'filename:*_T{tile}_*'
-   
-        query_url = f'https://scihub.copernicus.eu/dhus/search?q=({date_query} AND {platform_query} AND {filename_query})'
-        
+        date_query = f"beginposition:[{date_start_string} TO {date_end_string}]"
+        platform_query = "platformname:Sentinel-2"
+        filename_query = f"filename:*_T{tile}_*"
+
+        query_url = f"https://scihub.copernicus.eu/dhus/search?q=({date_query} AND {platform_query} AND {filename_query})"
+
         r = requests.get(query_url, auth=HTTPBasicAuth(self.username, self.password))
         print(r.status_code)
         print(r.content)
         print(r.headers)
 
-
-        
         # if r.status_code == 200:
         #     result = r.json()
         #     return result
