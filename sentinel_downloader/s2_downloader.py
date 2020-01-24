@@ -357,13 +357,14 @@ class S2Downloader:
                 with open(full_file_path, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1000000):
                         f.write(chunk)
-                transfer.finish()
 
             except BaseException as e:
+                transfer.finish()
                 return TaskStatus(
                     False, "An exception occured while trying to download.", e
                 )
             else:
+                transfer.finish()
                 return TaskStatus(True, "Download successful", full_file_path)
         else:
             return TaskStatus(
@@ -391,13 +392,14 @@ class S2Downloader:
                 with open(full_file_path, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1000000):
                         f.write(chunk)
-                transfer.finish()
 
             except BaseException as e:
+                transfer.finish()
                 return TaskStatus(
                     False, "An exception occured while trying to download.", e
                 )
             else:
+                transfer.finish()
                 return TaskStatus(True, "Download successful", str(full_file_path))
         else:
             return TaskStatus(
@@ -427,13 +429,14 @@ class S2Downloader:
                 with open(download_name, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1000000):
                         f.write(chunk)
-                transfer.finish()
 
             except BaseException as e:
+                transfer.finish()
                 return TaskStatus(
                     False, "An exception occured while trying to download.", e
                 )
             else:
+                transfer.finish()
                 return TaskStatus(True, "Download successful", download_name)
         else:
             return TaskStatus(

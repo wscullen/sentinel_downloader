@@ -5,3 +5,4 @@ __pycache__
 .env
 Pipfile.lock
 *.yaml
+*.egg-info
