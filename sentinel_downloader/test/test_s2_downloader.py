@@ -20,7 +20,7 @@ from ..utils import TaskStatus, ConfigFileProblem, ConfigValueMissing
 
 class TestS2Downloader(unittest.TestCase):
     def setUp(self):
-        logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+        logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 
     def test_config_init_no_config(self):
 
@@ -100,7 +100,7 @@ class TestS2Downloader(unittest.TestCase):
         print(result)
         self.assertTrue(True)
 
-    def test_download_fullproduct_celery(self):
+    def test_download_fullproduct_callback(self):
         s2_dl = s2_downloader.S2Downloader(
             path_to_config=Path(BASE_DIR, "test_config.yaml")
         )
@@ -109,6 +109,7 @@ class TestS2Downloader(unittest.TestCase):
             "6574b5fa-3898-4c9e-9c36-028193764211",
             "S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306",
             Path(os.path.abspath(os.path.dirname(__file__)), "test_data"),
+            lambda x, y, z: print(f"{x} - {y} - {z}"),
         )
         print(result)
         self.assertTrue(True)

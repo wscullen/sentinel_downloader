@@ -445,6 +445,9 @@ class S2Downloader:
             transfer_progress = 0
             chunk_size = 10000
 
+            previous_update = 0
+            update_throttle_threshold = 1  # Update every percent change
+
             if not os.path.isfile(full_file_path):
                 try:
                     with open(full_file_path, "wb") as f:
@@ -454,10 +457,14 @@ class S2Downloader:
                             transfer_percent = round(
                                 min(100, (transfer_progress / file_size) * 100), 2
                             )
-                            self.logger.info(
+                            self.logger.debug(
                                 f"Progress: {transfer_progress},  {transfer_percent:.2f}%"
                             )
-                            callback(transfer_progress, file_size, transfer_percent)
+                            if (
+                                transfer_percent - previous_update
+                            ) > update_throttle_threshold:
+                                callback(transfer_progress, file_size, transfer_percent)
+                                previous_update = transfer_percent
 
                 except BaseException as e:
                     return TaskStatus(
