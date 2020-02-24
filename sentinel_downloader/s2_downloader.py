@@ -27,13 +27,14 @@ class S2Downloader:
         self.logger = logging.getLogger(__name__)
 
         # create console handler and set level to debug
-        ch = logging.StreamHandler()
-        ch.setLevel(logging.DEBUG)
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        )
-        ch.setFormatter(formatter)
-        self.logger.addHandler(ch)
+        # ch = logging.StreamHandler()
+        # ch.setLevel(logging.DEBUG)
+        # formatter = logging.Formatter(
+        #     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        # )
+        # ch.setFormatter(formatter)
+        # self.logger.addHandler(ch)
+        # self.logger.propagate = False
 
         # Load config from config.yaml
         try:
@@ -95,7 +96,7 @@ class S2Downloader:
     def search_for_products(
         self, dataset_name, polygon, query_dict, just_entity_ids=False
     ):
-        print(query_dict)
+        self.logger.info(f"Searching for products using {query_dict}")
         producttype = None
         filename = None
         sensormode = None
@@ -109,7 +110,9 @@ class S2Downloader:
         if "sensoroperationalmode" in query_dict.keys():
             sensormode = query_dict["sensoroperationalmode"]
 
-        print(producttype, filename, sensormode)
+        self.logger.info(
+            f"product type: {producttype}, filename: {filename}, sensormode: {sensormode}"
+        )
 
         results = self.api.query(
             area=polygon,
@@ -120,14 +123,14 @@ class S2Downloader:
             area_relation="Intersects",
             platformname=dataset_name,
         )
-        print(results)
+        self.logger.info(f"Query results: {results}")
+
         return results
 
     def search_for_products_by_name(
         self, dataset_name, names, query_dict, just_entity_ids=False
     ):
-
-        print(query_dict)
+        self.logger.info(f"Searching for products by name using query {query_dict}")
         producttype = None
         filename = None
         sensormode = None
@@ -140,6 +143,10 @@ class S2Downloader:
 
         if "sensoroperationalmode" in query_dict.keys():
             sensormode = query_dict["sensoroperationalmode"]
+
+        self.logger.info(
+            f"product type: {producttype}, filename: {filename}, sensormode: {sensormode}"
+        )
 
         names_formatted_for_search = []
         for name in names:
@@ -152,17 +159,16 @@ class S2Downloader:
 
         names_raw_query_str = " or ".join(names_formatted_for_search)
 
-        print(names_raw_query_str)
-        print(dataset_name)
+        self.logger.info(f"Raw query string: {names_raw_query_str}")
+        self.logger.info(f"Dataset name: {dataset_name}")
 
-        print(producttype, filename, sensormode)
         results = collections.OrderedDict([])
         for name in names:
-            print("testing")
             result = self.api.query(raw=name)
             results.update(result)
 
-        print(results)
+        self.logger.info(f"Query results: {results}")
+
         return results
 
     def search_for_products_by_tile(
@@ -186,13 +192,13 @@ class S2Downloader:
             kw = query_kwargs.copy()
             kw["filename"] = f"*_T{tile}_*"  # products after 2017-03-31
             pp = self.api.query(**kw)
-            print(pp)
             products.update(pp)
 
         for prod in products:
             products[prod]["api_source"] = "esa_scihub"
 
-        print(products)
+        self.logger.info(f"Products found when searching by tile: {products}")
+
         return products
 
     def get_esa_product_name(
@@ -210,7 +216,7 @@ class S2Downloader:
             filename=filename_query,
         )
 
-        print(results)
+        self.logger.info(f"ESA Product name results: {results}")
 
         for result in results:
             result["api_source"] = "esa_scihub"
@@ -237,10 +243,6 @@ class S2Downloader:
             str: "success" if everything works, "failed (Exception details)" \
                 if it does not work.
         """
-
-        print(product)
-        print(folder)
-
         # product_id = product['name']
 
         # download_result = None
@@ -298,9 +300,10 @@ class S2Downloader:
         # Nodes('L1C_T12UUA_A012065_20190628T183312')/
         # Nodes('IMG_DATA')/Nodes
         r = requests.get(url=url, auth=(self.username, self.password))
-        print(r.status_code)
-        print(r.content)
-        print(r.text)
+        self.logger.info(
+            f"Status code: {r.status_code}, content: {r.content}, text: {r.text}"
+        )
+
         XHTML_NAMESPACE = "http://www.w3.org/2005/Atom"
         XHTML = "{%s}" % XHTML_NAMESPACE
 
@@ -312,11 +315,10 @@ class S2Downloader:
         h = etree.fromstring(xml, parser=parser)
 
         result = h.find("entry/id", h.nsmap)
-        print(result.text)
+        self.logger.debug(f"xml text: {result.text}")
 
         product_name = result.text.split("/")[-1][7:-2]
-        print("########### product name")
-        print(product_name)
+        self.logger.debug(f"Product name: {product_name}")
 
         next_url = f"{result.text}/Nodes('GRANULE')/Nodes"
 
@@ -324,14 +326,13 @@ class S2Downloader:
 
         xml = next_r.text.encode("utf-8")
         h = etree.fromstring(xml, parser=parser)
-        print(next_r.text)
+        self.logger.debug(f"Next result text: {next_r.text}")
         result = h.find("entry/id", h.nsmap)
-        print(result.text)
+        self.logger.debug(f"Next result text: {result.text}")
+
         granule_name = result.text.split("/")[-1][7:-2]
-        print("############# granule name")
-        print(
-            granule_name
-        )  # 'T12UXA_20190620T181921_TCI.jp2' L1C_T12UXA_A020859_20190620T182912  S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE
+        self.logger.info(f"Granule name: {granule_name}")
+        # 'T12UXA_20190620T181921_TCI.jp2' L1C_T12UXA_A020859_20190620T182912  S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306.SAFE
         tci_name = f"{granule_name.split('_')[1]}_{product_name.split('_')[2]}_TCI.jp2"
         next_url = f"{result.text}/Nodes('IMG_DATA')/Nodes('{tci_name}')/$value"
 
@@ -340,20 +341,17 @@ class S2Downloader:
     def download_tci(self, tile_id, directory):
 
         url = self.build_download_url(tile_id)
-
+        self.logger.info(f"Url created: {url}")
         file_name = url.split("/")[-2][7:-2]
-
-        print(file_name)
+        self.logger.info(f"Downloading true color preview image for: {file_name}")
 
         full_file_path = Path(directory, file_name)
-        print(url)
-        print(full_file_path)
 
         r = requests.get(
             url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
         )
 
-        print(r.status_code)
+        self.logger.info(f"Response status code: {r.status_code}")
 
         if not os.path.isfile(full_file_path):
             try:
@@ -377,19 +375,23 @@ class S2Downloader:
             )
 
     def download_fullproduct(self, tile_id, tile_name, directory):
-        
+
         url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
 
         full_file_path = Path(directory, tile_name + ".zip")
-        print(url)
-        print(full_file_path)
-        try:
-             r = requests.get(url=url, auth=(self.username, self.password), stream=True)
-        except BaseException as e:
-            print(e)
-            return TaskStatus(False, "An exception occured while trying to download.", e)
+        self.logger.info(f"Url created: {url}")
 
-        print(r.status_code)
+        self.logger.info(f"Downloading full product for {tile_name}")
+
+        try:
+            r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        except BaseException as e:
+            self.logger.error(e)
+            return TaskStatus(
+                False, "An exception occured while trying to download.", e
+            )
+
+        self.logger.debug(f"Response status code: {r.status_code}")
 
         if not os.path.isfile(full_file_path):
             try:
@@ -412,6 +414,64 @@ class S2Downloader:
                 True, "Requested file to download already exists.", str(full_file_path)
             )
 
+    def download_fullproduct_callback(
+        self, tile_id, tile_name, directory, callback=None
+    ):
+        """ Same as download_fullproduct, except that is supports a callback of the
+            form func(current_amount_downloaded_in_bytes, total_amount_to_transfer_in_bytes, percentange_complete)
+
+            For every chunk of the file downloaded, the callback is called.
+        
+        """
+        url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
+
+        full_file_path = Path(directory, tile_name + ".zip")
+
+        self.logger.info(f"Url created: {url}")
+        self.logger.info(f"Downloading full product for {tile_name}")
+        self.logger.info(f"Full file path: {full_file_path}")
+
+        try:
+            r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+        except BaseException as e:
+            self.logger.error(e)
+            return TaskStatus(
+                False, "An exception occured while trying to download.", e
+            )
+        else:
+            self.logger.debug(f"Response status code: {r.status_code}")
+
+            file_size = int(r.headers["Content-Length"])
+            transfer_progress = 0
+            chunk_size = 10000
+
+            if not os.path.isfile(full_file_path):
+                try:
+                    with open(full_file_path, "wb") as f:
+                        for chunk in r.iter_content(chunk_size=chunk_size):
+                            f.write(chunk)
+                            transfer_progress += chunk_size
+                            transfer_percent = round(
+                                min(100, (transfer_progress / file_size) * 100), 2
+                            )
+                            self.logger.info(
+                                f"Progress: {transfer_progress},  {transfer_percent:.2f}%"
+                            )
+                            callback(transfer_progress, file_size, transfer_percent)
+
+                except BaseException as e:
+                    return TaskStatus(
+                        False, "An exception occured while trying to download.", e
+                    )
+                else:
+                    return TaskStatus(True, "Download successful", str(full_file_path))
+            else:
+                return TaskStatus(
+                    True,
+                    "Requested file to download already exists.",
+                    str(full_file_path),
+                )
+
     def download_file(self, url, download_name, download_id):
         """Download from scihub using requests library and their api.
         URL of the form:
@@ -422,11 +482,13 @@ class S2Downloader:
         Maximum concurrent downloads is 2.
         """
 
+        self.logger.info(f"Downloading file for url {url}")
+
         r = requests.get(
             url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
         )
 
-        print(r.status_code)
+        self.logger.debug(f"Response status code: {r.status_code}")
 
         if not os.path.isfile(download_name):
             try:
@@ -448,8 +510,6 @@ class S2Downloader:
             return TaskStatus(
                 False, "Requested file to download already exists.", download_name
             )
-
-        pass
 
     def s3_product_request(self, product_id, bucket_id):
         """ NOT IMPLEMENTED
@@ -516,6 +576,8 @@ class S2Downloader:
             # time in yyyy-MM-ddThh:mm:ss.SSSZ (ISO8601 format)
         """
 
+        self.logger.info("Searching for product by tile directly...")
+
         date_start = dt.strptime(daterange[0], "%Y%m%d")
         date_start.replace(tzinfo=datetime.timezone.utc)
 
@@ -532,9 +594,10 @@ class S2Downloader:
         query_url = f"https://scihub.copernicus.eu/dhus/search?q=({date_query} AND {platform_query} AND {filename_query})"
 
         r = requests.get(query_url, auth=HTTPBasicAuth(self.username, self.password))
-        print(r.status_code)
-        print(r.content)
-        print(r.headers)
+
+        self.logger.debug(
+            f"Response code: {r.status_code}, content: {r.content}, headers: {r.headers}"
+        )
 
         # if r.status_code == 200:
         #     result = r.json()

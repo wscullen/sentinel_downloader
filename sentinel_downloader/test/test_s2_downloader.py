@@ -1,15 +1,15 @@
 import unittest
 
-#import s2d2_proj.sentinel_downloader.s2_downloader as s2_downloader
+# import s2d2_proj.sentinel_downloader.s2_downloader as s2_downloader
 
 from .. import s2_downloader
 
 import os
+import logging
+import sys
 
 from pathlib import Path
 
-# L1C_T12UVA_A012537_20190731T183929
-# L1C_T12UVA_A012537_20190731T184118
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -17,10 +17,11 @@ print(BASE_DIR)
 
 from ..utils import TaskStatus, ConfigFileProblem, ConfigValueMissing
 
+
 class TestS2Downloader(unittest.TestCase):
     def setUp(self):
-        pass
-    
+        logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+
     def test_config_init_no_config(self):
 
         with self.assertRaises(FileNotFoundError):
@@ -63,7 +64,9 @@ class TestS2Downloader(unittest.TestCase):
         self.assertIsNotNone(dl_obj)
 
     def test_build_url(self):
-        s2_dl = s2_downloader.S2Downloader(path_to_config=Path(BASE_DIR, 'test_config.yaml'))
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
+        )
 
         result = s2_dl.build_download_url("5ff875a1-bc41-4c43-adae-be4dfa03ad5f")
         # self.assertTrue(True)
@@ -74,19 +77,35 @@ class TestS2Downloader(unittest.TestCase):
         )
 
     def test_download_tci(self):
-        s2_dl = s2_downloader.S2Downloader(path_to_config=Path(BASE_DIR, 'test_config.yaml'))
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
+        )
 
         result = s2_dl.download_tci(
             "6574b5fa-3898-4c9e-9c36-028193764211",
             Path(os.path.abspath(os.path.dirname(__file__)), "test_data"),
         )
-        print(result)
         self.assertTrue(True)
 
     def test_download_fullproduct(self):
-        s2_dl = s2_downloader.S2Downloader(path_to_config=Path(BASE_DIR, 'test_config.yaml'))
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
+        )
 
         result = s2_dl.download_fullproduct(
+            "6574b5fa-3898-4c9e-9c36-028193764211",
+            "S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306",
+            Path(os.path.abspath(os.path.dirname(__file__)), "test_data"),
+        )
+        print(result)
+        self.assertTrue(True)
+
+    def test_download_fullproduct_celery(self):
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
+        )
+
+        result = s2_dl.download_fullproduct_celeryprogress(
             "6574b5fa-3898-4c9e-9c36-028193764211",
             "S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306",
             Path(os.path.abspath(os.path.dirname(__file__)), "test_data"),
@@ -100,24 +119,24 @@ class TestS2Downloader(unittest.TestCase):
 
         # S2A_MSIL2A_20190904T102021_N0213_R065_T32UPV_20190904T140237
 
-        s2_dl = s2_downloader.S2Downloader(path_to_config=Path(BASE_DIR, 'test_config.yaml'))
-
-        result = s2_dl.search_for_products_by_tile(
-            ['32UPV'],
-            ('20190904', '20190905'),
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
         )
+
+        result = s2_dl.search_for_products_by_tile(["32UPV"], ("20190904", "20190905"),)
         print(result)
 
     def test_search_for_products_by_tile_directly(self):
-        
-        s2_dl = s2_downloader.S2Downloader(path_to_config=Path(BASE_DIR, 'test_config.yaml'))
 
-        daterange = ('20190618', '20190619')
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
+        )
+
+        daterange = ("20190618", "20190619")
         print(daterange)
-        result = s2_dl.search_for_products_by_tile_directly('20TMS', daterange)
-        
-        print(result)
+        result = s2_dl.search_for_products_by_tile_directly("20TMS", daterange)
 
+        print(result)
 
     # def test_properties_file_creation(self):
 
