@@ -105,7 +105,7 @@ class TestS2Downloader(unittest.TestCase):
             path_to_config=Path(BASE_DIR, "test_config.yaml")
         )
 
-        result = s2_dl.download_fullproduct_celeryprogress(
+        result = s2_dl.download_fullproduct_callback(
             "6574b5fa-3898-4c9e-9c36-028193764211",
             "S2A_MSIL1C_20190620T181921_N0207_R127_T12UXA_20190620T231306",
             Path(os.path.abspath(os.path.dirname(__file__)), "test_data"),
