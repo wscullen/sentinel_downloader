@@ -139,6 +139,21 @@ class TestS2Downloader(unittest.TestCase):
 
         print(result)
 
+    def test_get_product_info_by_id(self):
+        """ Test search for products when an L2A product is available """
+        # self, tiles, date_range, just_entity_ids=False
+
+        # S2A_MSIL2A_20190904T102021_N0213_R065_T32UPV_20190904T140237
+
+        s2_dl = s2_downloader.S2Downloader(
+            path_to_config=Path(BASE_DIR, "test_config.yaml")
+        )
+
+        result = s2_dl.get_product_info(
+            "e83a8c72-ce34-42d9-b711-9980497cdbd3", full=False
+        )
+        print(result)
+
     # def test_properties_file_creation(self):
 
     #     runner = gpt_runner.GPTRunner(

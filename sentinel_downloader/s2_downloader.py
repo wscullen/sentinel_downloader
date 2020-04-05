@@ -93,6 +93,10 @@ class S2Downloader:
     def __del__(self):
         pass
 
+    def get_product_info(self, product_id, full=True):
+        product_data = self.api.get_product_odata(product_id, full=full)
+        return product_data
+
     def search_for_products(
         self, dataset_name, polygon, query_dict, just_entity_ids=False
     ):
