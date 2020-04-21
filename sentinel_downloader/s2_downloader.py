@@ -483,6 +483,37 @@ class S2Downloader:
                     str(full_file_path),
                 )
 
+    def request_offline_product(self, tile_id):
+        """ For products with the Offline status, it is a regular download request
+            with no intention of downloading the file, if the response is 202, the
+            request to retrieve the product was received, and the product's Online
+            property should be checked periodically to determine when it should be
+            actually downloaded.
+        
+        """
+        url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
+
+        self.logger.info(f"Url created: {url}")
+
+        try:
+            r = requests.get(url=url, auth=(self.username, self.password))
+        except BaseException as e:
+            self.logger.error(e)
+            return False
+        else:
+            self.logger.debug(f"Response status code: {r.status_code}")
+
+            if r.status_code == 202:
+                self.logger.debug(
+                    "Request to move product to Online state was successful"
+                )
+                return True
+            else:
+                self.logger.debug(
+                    "Request to move product to Online state either failed or encountered unknown behaviour"
+                )
+                return False
+
     def download_file(self, url, download_name, download_id):
         """Download from scihub using requests library and their api.
         URL of the form:
