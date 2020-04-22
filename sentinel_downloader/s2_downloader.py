@@ -492,7 +492,9 @@ class S2Downloader:
         
         """
         url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
-
+        # https://scihub.copernicus.eu/dhus/odata/v1/Products('bd22f901-a796-4553-acc9-73cbc34e0f40')/$value
+        # https://scihub.copernicus.eu/dhus/odata/v1/Products('c94ffc0b-62e5-4f76-83b8-e7f0e5a7542e')/$value
+        # https://scihub.copernicus.eu/dhus/odata/v1/Products(' Id ')/$value
         self.logger.info(f"Url created: {url}")
 
         try:
