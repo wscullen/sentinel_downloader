@@ -496,9 +496,10 @@ class S2Downloader:
         # https://scihub.copernicus.eu/dhus/odata/v1/Products('c94ffc0b-62e5-4f76-83b8-e7f0e5a7542e')/$value
         # https://scihub.copernicus.eu/dhus/odata/v1/Products(' Id ')/$value
         self.logger.info(f"Url created: {url}")
-
+        self.logger.info(self.username)
+        self.logger.info(self.password)
         try:
-            r = requests.get(url=url, auth=(self.username, self.password))
+            r = requests.get(url=url, auth=(self.username, self.password), stream=False)
         except BaseException as e:
             self.logger.error(e)
             return False
