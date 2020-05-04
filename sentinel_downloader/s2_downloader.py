@@ -303,7 +303,7 @@ class S2Downloader:
         # Nodes('GRANULE')/
         # Nodes('L1C_T12UUA_A012065_20190628T183312')/
         # Nodes('IMG_DATA')/Nodes
-        r = requests.get(url=url, auth=(self.username, self.password))
+        r = requests.get(url=url, auth=(self.username, self.password), timeout=2 * 60.0)
         self.logger.info(
             f"Status code: {r.status_code}, content: {r.content}, text: {r.text}"
         )
@@ -326,7 +326,9 @@ class S2Downloader:
 
         next_url = f"{result.text}/Nodes('GRANULE')/Nodes"
 
-        next_r = requests.get(url=next_url, auth=(self.username, self.password))
+        next_r = requests.get(
+            url=next_url, auth=(self.username, self.password), timeout=2 * 60
+        )
 
         xml = next_r.text.encode("utf-8")
         h = etree.fromstring(xml, parser=parser)
@@ -352,7 +354,7 @@ class S2Downloader:
         full_file_path = Path(directory, file_name)
 
         r = requests.get(
-            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+            url=url, auth=(self.username, self.password), stream=True, timeout=2 * 60
         )
 
         self.logger.info(f"Response status code: {r.status_code}")
@@ -388,7 +390,9 @@ class S2Downloader:
         self.logger.info(f"Downloading full product for {tile_name}")
 
         try:
-            r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+            r = requests.get(
+                url=url, auth=(self.username, self.password), stream=True, timeout=120.0
+            )
         except BaseException as e:
             self.logger.error(e)
             return TaskStatus(
@@ -436,7 +440,12 @@ class S2Downloader:
         self.logger.info(f"Full file path: {full_file_path}")
 
         try:
-            r = requests.get(url=url, auth=(self.username, self.password), stream=True)
+            r = requests.get(
+                url=url,
+                auth=(self.username, self.password),
+                stream=True,
+                timeout=2 * 60.0,
+            )
         except BaseException as e:
             self.logger.error(e)
             return TaskStatus(
@@ -499,7 +508,12 @@ class S2Downloader:
         self.logger.info(self.username)
         self.logger.info(self.password)
         try:
-            r = requests.get(url=url, auth=(self.username, self.password), stream=False)
+            r = requests.get(
+                url=url,
+                auth=(self.username, self.password),
+                stream=False,
+                timeout=2 * 60,
+            )
         except BaseException as e:
             self.logger.error(e)
             return False
@@ -530,7 +544,7 @@ class S2Downloader:
         self.logger.info(f"Downloading file for url {url}")
 
         r = requests.get(
-            url=url, auth=(self.username, self.password), stream=True, timeout=60 * 60
+            url=url, auth=(self.username, self.password), stream=True, timeout=2 * 60.0
         )
 
         self.logger.debug(f"Response status code: {r.status_code}")
@@ -638,7 +652,11 @@ class S2Downloader:
 
         query_url = f"https://scihub.copernicus.eu/dhus/search?q=({date_query} AND {platform_query} AND {filename_query})"
 
-        r = requests.get(query_url, auth=HTTPBasicAuth(self.username, self.password))
+        r = requests.get(
+            query_url,
+            auth=HTTPBasicAuth(self.username, self.password),
+            timeout=2 * 60.0,
+        )
 
         self.logger.debug(
             f"Response code: {r.status_code}, content: {r.content}, headers: {r.headers}"
