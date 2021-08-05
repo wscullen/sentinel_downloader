@@ -26,7 +26,7 @@ jobs:
         VERSION_FILE='setup.py'
         # ensure the placeholder is there. If grep doesn't find the placeholder
         # it exits with exit code 1 and github actions aborts the build. 
-        sed -i "s/v\d+\.\d+\.\d+\s+\"${{ steps.get_tag.outputs.new_tag }}\"/g" "$VERSION_FILE"
+        sed -i "s/v\d+\.\d+\.\d+\s+\/"${{ steps.get_tag.outputs.new_tag }}\"/g" "$VERSION_FILE"
         cat setup.py
       shell: bash
     - name: Update setup.py
