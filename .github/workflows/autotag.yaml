@@ -30,7 +30,7 @@ jobs:
         sed -i "s/$PLACEHOLDER/__version__ = \"${{ steps.get_tag.outputs.new_tag }} \"/g" "$VERSION_FILE"
       shell: bash
     - name: Bump version and push tag
-      id: get_tag
+      id: push_tag
       uses: anothrNick/github-tag-action@1.26.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
