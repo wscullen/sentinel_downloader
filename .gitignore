@@ -4,6 +4,5 @@ __pycache__
 .vscode
 .env
 Pipfile.lock
-*.yaml
 *.egg-info
 grid_files/
