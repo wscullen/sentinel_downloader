@@ -19,6 +19,7 @@ jobs:
         DEFAULT_BUMP: patch
         INITIAL_VERSION: 1.0.0
         DRY_RUN: true
+        RELEASE_BRANCHES: master
     - name: Autobump version
       run: |
         echo ${{ steps.get_tag.outputs.new_tag }}
@@ -48,4 +49,4 @@ jobs:
         WITH_V: true
         DEFAULT_BUMP: patch
         INITIAL_VERSION: 1.0.0
-        RELEASE_BRANCHES: .*
+        RELEASE_BRANCHES: master
