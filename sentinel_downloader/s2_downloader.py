@@ -205,6 +205,33 @@ class S2Downloader:
 
         return products
 
+    def search_for_products_by_footprint(self, wkt, date_range, product_type=None):
+        products = OrderedDict([])
+
+        query_kwargs = {
+            "footprint": wkt,
+            "platformname": "Sentinel-2",
+            "beginposition": f'[{date_range[0]} TO {date_range[1]}]',
+            "beginposition": f'[{date_range[0]} TO {date_range[1]}]'
+        }
+
+        raw = f'(footprint:"Intersects({wkt})") AND ( beginPosition:[{date_range[0]} TO {date_range[1]}] AND endPosition:[{date_range[0]} TO {date_range[1]}] ) AND ( (platformname:Sentinel-2))'
+
+        # S2MSI1C, S2MS2Ap
+        if product_type == "L1C":
+            query_kwargs["producttype"] = "S2MSI1C"
+        elif product_type == "L2A":
+            query_kwargs["producttype"] = "S2MSI2A"
+
+        products = self.api.query(raw=raw)
+
+        for prod in products:
+            products[prod]["api_source"] = "esa_scihub"
+
+        self.logger.info(f"Products found when searching by tile: {products}")
+
+        return products
+
     def get_esa_product_name(
         self, platformname, relative_orbit_number, filename_query, sensingdate
     ):
