@@ -21,6 +21,7 @@ jobs:
         DRY_RUN: true
     - name: Autobump version
       run: |
+        echo ${{ steps.get_tag.outputs.new_tag }}
         # from refs/tags/v1.2.3 get 1.2.3
         PLACEHOLDER='__version__ = "0.0.0"'
         VERSION_FILE='setup.py'
