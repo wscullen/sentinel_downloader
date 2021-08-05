@@ -1,6 +1,6 @@
 from setuptools import setup
 
-__version__ = "0.0.0"
+__version__ = "v1.0.5 "
 
 setup(
     name="sentinel_downloader",
