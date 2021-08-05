@@ -20,6 +20,7 @@ jobs:
     - name: Autobump version
       run: |
         # from refs/tags/v1.2.3 get 1.2.3
+        echo $GITHUB_REF
         VERSION=$(echo $GITHUB_REF | sed 's#.*/v##')
         PLACEHOLDER='__version__ = "0.0.0"'
         VERSION_FILE='setup.py'
