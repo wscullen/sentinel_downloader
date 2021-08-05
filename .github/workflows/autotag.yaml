@@ -30,17 +30,17 @@ jobs:
         cat setup.py
       shell: bash
     - name: Update setup.py
+      id: update_master
       uses: test-room-7/action-update-file@v1
       with:
         file-path: setup.py
         commit-msg: Update setup.py
         github-token: ${{ secrets.GITHUB_TOKEN }}
-  create_tag:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
+    - name: Checkout latest
+      uses: actions/checkout@v2
       with:
         fetch-depth: '0'
+        ref: ${{ steps.update_master.outputs.commit-sha }}
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.26.0
       env:
