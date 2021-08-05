@@ -43,3 +43,5 @@ Make sure to set SCIHUB_USERNAME and SCIHUB_PASSWORD to the usernamd and passwor
 or to upgrade:
 
 `python3.8 -m pip install --upgrade git+https://sscullen:$GITHUB_PAT@github.com/wscullen/sentinel_downloader.git#egg=sentinel_downloader`
+
+Hi!
