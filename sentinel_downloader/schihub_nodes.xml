@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://scihub.copernicus.eu/dhus/odata/v1/Products(&apos;f5e8573d-d16a-4dcd-861c-e3f6ff32d71f&apos;)/">
+    <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('f5e8573d-d16a-4dcd-861c-e3f6ff32d71f')/Nodes</id>
+    <title type="text">Nodes</title>
+    <updated>2021-09-01T06:41:00.074Z</updated>
+    <author>
+        <name/>
+    </author>
+    <link href="Nodes" rel="self" title="Nodes"/>
+    <entry>
+        <id>https://scihub.copernicus.eu/dhus/odata/v1/Products('f5e8573d-d16a-4dcd-861c-e3f6ff32d71f')/Nodes('S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE')</id>
+        <title type="text">S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE</title>
+        <updated>2021-09-01T06:41:00.084Z</updated>
+        <category term="DHuS.Node" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/>
+        <link href="Nodes(&apos;S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE&apos;)" rel="edit" title="Node"/>
+        <link href="Nodes(&apos;S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE&apos;)/$value" rel="edit-media" type="application/octet-stream"/>
+        <link href="Nodes(&apos;S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE&apos;)/Nodes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Nodes" title="Nodes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes(&apos;S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE&apos;)/Attributes" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Attributes" title="Attributes" type="application/atom+xml;type=feed"/>
+        <link href="Nodes(&apos;S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE&apos;)/Class" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Class" title="Class" type="application/atom+xml;type=entry"/>
+        <content type="application/octet-stream" src="Nodes(&apos;S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE&apos;)/$value"/>
+        <m:properties>
+            <d:Id>S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE</d:Id>
+            <d:Name>S2B_MSIL2A_20210607T182919_N0300_R027_T11UQQ_20210607T230730.SAFE</d:Name>
+            <d:ContentType>Sentinel-2 User Product Level-2A</d:ContentType>
+            <d:ContentLength>0</d:ContentLength>
+            <d:ChildrenNumber>132</d:ChildrenNumber>
+            <d:Value m:null="true"/>
+        </m:properties>
+    </entry>
+</feed>
