@@ -1,19 +1,26 @@
 [[source]]
-name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-
-[dev-packages]
-black = "*"
-pylint = "*"
+name = "pypi"
 
 [packages]
-sentinelsat = "*"
-lxml = "*"
-pyyaml = "*"
+certifi = "==2021.*"
+chardet = "==4.*"
+click = "==8.*"
+colorama = "==0.4.*"
+geojson = "==2.*"
+geomet = "==0.3.*"
+html2text = "==2020.*"
+idna = "==2.*"
+lxml = "==4.*"
+requests = "==2.*"
+sentinelsat = "==1.0.*"
+six = "==1.*"
+tqdm = "==4.*"
+urllib3 = "==1.*"
+PyYAML = "==5.*"
+
+[dev-packages]
 
 [requires]
 python_version = "3.8"
-
-[pipenv]
-allow_prereleases = true
