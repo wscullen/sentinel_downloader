@@ -36,46 +36,56 @@ class S2Downloader:
         # self.logger.addHandler(ch)
         # self.logger.propagate = False
 
-        # Load config from config.yaml
-        try:
-            with open(path_to_config, "r") as stream:
-                config = yaml.safe_load(stream)
+        user_n = None
+        pass_w = None
 
-        except yaml.YAMLError as exc:
-            self.logger.error("Problem loading config... exiting...")
-            raise ConfigFileProblem
+        if username and password:
+            user_n = username
+            pass_w = password
+        else:
+            # Load config from config.yaml
+            try:
+                with open(path_to_config, "r") as stream:
+                    config = yaml.safe_load(stream)
 
-        except FileNotFoundError as e:
-            self.logger.error(f"Missing config file with path {path_to_config}")
-            raise e
+            except yaml.YAMLError as exc:
+                self.logger.error("Problem loading config... exiting...")
+                raise ConfigFileProblem
 
-        except BaseException as e:
-            self.logger.error("Unknown problem occurred while loading config")
+            except FileNotFoundError as e:
+                self.logger.error(f"Missing config file with path {path_to_config}")
+                raise e
 
-        required_config_keys = [
-            "ESA_SCIHUB_USER",
-            "ESA_SCIHUB_PASS",
-        ]
+            except BaseException as e:
+                self.logger.error("Unknown problem occurred while loading config")
 
-        self.logger.debug(config.keys())
+            required_config_keys = [
+                "ESA_SCIHUB_USER",
+                "ESA_SCIHUB_PASS",
+            ]
 
-        try:
-            config.keys()
-        except AttributeError as e:
-            raise ConfigFileProblem
+            self.logger.debug(config.keys())
 
-        # Find the difference between sets
-        # required_config_keys can be a sub set of config.keys()
-        missing_keys = set(required_config_keys) - set(list(config.keys()))
+            try:
+                config.keys()
+            except AttributeError as e:
+                raise ConfigFileProblem
 
-        if len(list(missing_keys)) != 0:
-            self.logger.error(
-                f"Config file loaded but missing critical vars, {missing_keys}"
-            )
-            raise ConfigValueMissing
+            # Find the difference between sets
+            # required_config_keys can be a sub set of config.keys()
+            missing_keys = set(required_config_keys) - set(list(config.keys()))
 
-        self.username = config["ESA_SCIHUB_USER"]
-        self.password = config["ESA_SCIHUB_PASS"]
+            if len(list(missing_keys)) != 0:
+                self.logger.error(
+                    f"Config file loaded but missing critical vars, {missing_keys}"
+                )
+                raise ConfigValueMissing
+
+            user_n = config["ESA_SCIHUB_USER"]
+            pass_w = config["ESA_SCIHUB_PASS"]
+
+        self.username = user_n
+        self.password = pass_w
 
         if not (bool(self.username) and bool(self.password)):
             self.logger.error("Missing auth env vars, MISSING USERNAME OR PASSWORD")
@@ -211,8 +221,8 @@ class S2Downloader:
         query_kwargs = {
             "footprint": wkt,
             "platformname": "Sentinel-2",
-            "beginposition": f'[{date_range[0]} TO {date_range[1]}]',
-            "beginposition": f'[{date_range[0]} TO {date_range[1]}]'
+            "beginposition": f"[{date_range[0]} TO {date_range[1]}]",
+            "beginposition": f"[{date_range[0]} TO {date_range[1]}]",
         }
 
         raw = f'(footprint:"Intersects({wkt})") AND ( beginPosition:[{date_range[0]} TO {date_range[1]}] AND endPosition:[{date_range[0]} TO {date_range[1]}] ) AND ( (platformname:Sentinel-2))'
@@ -452,11 +462,11 @@ class S2Downloader:
     def download_fullproduct_callback(
         self, tile_id, tile_name, directory, callback=None
     ):
-        """ Same as download_fullproduct, except that is supports a callback of the
-            form func(current_amount_downloaded_in_bytes, total_amount_to_transfer_in_bytes, percentange_complete)
+        """Same as download_fullproduct, except that is supports a callback of the
+        form func(current_amount_downloaded_in_bytes, total_amount_to_transfer_in_bytes, percentange_complete)
 
-            For every chunk of the file downloaded, the callback is called.
-        
+        For every chunk of the file downloaded, the callback is called.
+
         """
         url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
 
@@ -520,12 +530,12 @@ class S2Downloader:
                 )
 
     def request_offline_product(self, tile_id):
-        """ For products with the Offline status, it is a regular download request
-            with no intention of downloading the file, if the response is 202, the
-            request to retrieve the product was received, and the product's Online
-            property should be checked periodically to determine when it should be
-            actually downloaded.
-        
+        """For products with the Offline status, it is a regular download request
+        with no intention of downloading the file, if the response is 202, the
+        request to retrieve the product was received, and the product's Online
+        property should be checked periodically to determine when it should be
+        actually downloaded.
+
         """
         url = f"https://scihub.copernicus.eu/dhus/odata/v1/Products('{tile_id}')/$value"
         # https://scihub.copernicus.eu/dhus/odata/v1/Products('bd22f901-a796-4553-acc9-73cbc34e0f40')/$value
@@ -598,31 +608,31 @@ class S2Downloader:
             )
 
     def s3_product_request(self, product_id, bucket_id):
-        """ NOT IMPLEMENTED
+        """NOT IMPLEMENTED
 
-            Uses the boto3 aws sdk to query the sentinel1 aws bucket
-            [product type]/[year]/[month]/[day]/[mode]/[polarization]/[product identifier]
+        Uses the boto3 aws sdk to query the sentinel1 aws bucket
+        [product type]/[year]/[month]/[day]/[mode]/[polarization]/[product identifier]
 
-            For example, the files for individual scene are available in the following location:
-            s3://sentinel-s1-l1c/GRD/2018/1/11/EW/DH/S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB/
+        For example, the files for individual scene are available in the following location:
+        s3://sentinel-s1-l1c/GRD/2018/1/11/EW/DH/S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB/
 
-            product_id format is S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB
+        product_id format is S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB
 
-            Where:
+        Where:
 
-            [product type] = GRD - GRD or SLC
+        [product type] = GRD - GRD or SLC
 
-            [year] = e.g. 2018 - is the year the data was collected.
+        [year] = e.g. 2018 - is the year the data was collected.
 
-            [month] = e.g. 1 - is the month of the year the data was collected (without leading zeros).
+        [month] = e.g. 1 - is the month of the year the data was collected (without leading zeros).
 
-            [day] = e.g. 11 - is the day of the month the data was collected (without leading zeros).
+        [day] = e.g. 11 - is the day of the month the data was collected (without leading zeros).
 
-            [mode] = e.g. EW - IW, EW, WV, IW1-IW3, EW1-EW5, WV1-WV2, S1-S6, IS1-IS7; note that modes depend on the [product type]
+        [mode] = e.g. EW - IW, EW, WV, IW1-IW3, EW1-EW5, WV1-WV2, S1-S6, IS1-IS7; note that modes depend on the [product type]
 
-            [polarization] = e.g. DH - DH, DV, SH, SV, VH, HV, HV, VH; note that polarizations depend on the observation scenario
+        [polarization] = e.g. DH - DH, DV, SH, SV, VH, HV, HV, VH; note that polarizations depend on the observation scenario
 
-            product identifier - original product identifier
+        product identifier - original product identifier
         """
         # sample product id
         # S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB
@@ -649,17 +659,17 @@ class S2Downloader:
 
     def search_for_products_by_tile_directly(self, tile, daterange):
         """
-                    #         producttype:	Used to perform a search based on the product type.
-            # Syntax:
-            # producttype:<producttype>
+                #         producttype:	Used to perform a search based on the product type.
+        # Syntax:
+        # producttype:<producttype>
 
-            # Possible values for for <producttype> are the following, listed per mission:
+        # Possible values for for <producttype> are the following, listed per mission:
 
-            # Sentinel-1: SLC, GRD, OCN
-            # Sentinel-2: S2MSI1C, S2MS2Ap
-            # Sentinel-3: SR_1_SRA___, SR_1_SRA_A, SR_1_SRA_BS, SR_2_LAN___, OL_1_EFR___, OL_1_ERR___, OL_2_LFR___, OL_2_LRR___, SL_1_RBT___, SL_2_LST___, SY_2_SYN___, SY_2_V10___, SY_2_VG1___, SY_2_VGP___.
-     
-            # time in yyyy-MM-ddThh:mm:ss.SSSZ (ISO8601 format)
+        # Sentinel-1: SLC, GRD, OCN
+        # Sentinel-2: S2MSI1C, S2MS2Ap
+        # Sentinel-3: SR_1_SRA___, SR_1_SRA_A, SR_1_SRA_BS, SR_2_LAN___, OL_1_EFR___, OL_1_ERR___, OL_2_LFR___, OL_2_LRR___, SL_1_RBT___, SL_2_LST___, SY_2_SYN___, SY_2_V10___, SY_2_VG1___, SY_2_VGP___.
+
+        # time in yyyy-MM-ddThh:mm:ss.SSSZ (ISO8601 format)
         """
 
         self.logger.info("Searching for product by tile directly...")
