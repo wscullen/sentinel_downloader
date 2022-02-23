@@ -225,13 +225,19 @@ class S2Downloader:
             "beginposition": f"[{date_range[0]} TO {date_range[1]}]",
         }
 
-        raw = f'(footprint:"Intersects({wkt})") AND ( beginPosition:[{date_range[0]} TO {date_range[1]}] AND endPosition:[{date_range[0]} TO {date_range[1]}] ) AND ( (platformname:Sentinel-2))'
-
         # S2MSI1C, S2MS2Ap
         if product_type == "L1C":
             query_kwargs["producttype"] = "S2MSI1C"
+            product_type_string = "S2MSI1C"
         elif product_type == "L2A":
             query_kwargs["producttype"] = "S2MSI2A"
+            product_type_string = "S2MSI2A"
+
+        raw = (
+            f'(footprint:"Intersects({wkt})") AND ( beginPosition:[{date_range[0]} TO {date_range[1]}]'
+            f" AND endPosition:[{date_range[0]} TO {date_range[1]}] )"
+            f" AND ( (platformname:Sentinel-2) AND (producttype:{product_type_string}))"
+        )
 
         products = self.api.query(raw=raw)
 
@@ -496,7 +502,7 @@ class S2Downloader:
             chunk_size = 10000
 
             previous_update = 0
-            update_throttle_threshold = 1  # Update every percent change
+            update_throttle_threshold = 5  # Update every percent change
 
             if not os.path.isfile(full_file_path):
                 try:
