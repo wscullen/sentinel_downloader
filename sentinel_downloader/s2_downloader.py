@@ -513,13 +513,13 @@ class S2Downloader:
                             transfer_percent = round(
                                 min(100, (transfer_progress / file_size) * 100), 2
                             )
-                            self.logger.debug(
-                                f"Progress: {transfer_progress},  {transfer_percent:.2f}%"
-                            )
                             if (
                                 transfer_percent - previous_update
                             ) > update_throttle_threshold:
-                                callback(transfer_progress, file_size, transfer_percent)
+                                self.logger.debug(
+                                    f"Progress: {transfer_progress},  {transfer_percent:.2f}%"
+                                )
+                                callback(transfer_percent)
                                 previous_update = transfer_percent
 
                 except BaseException as e:
