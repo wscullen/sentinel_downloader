@@ -18,6 +18,7 @@ from pathlib import Path
 
 import logging
 import yaml
+import math
 
 
 class S2Downloader:
@@ -513,18 +514,15 @@ class S2Downloader:
                             transfer_percent = round(
                                 min(100, (transfer_progress / file_size) * 100), 2
                             )
-                            self.logger.info(transfer_percent)
-                            self.logger.info(previous_update)
-                            self.logger.info(transfer_percent - previous_update)
-                            self.logger.info(update_throttle_threshold)
+
                             if (
                                 transfer_percent - previous_update
-                            ) > update_throttle_threshold:
+                            ) >= update_throttle_threshold:
                                 self.logger.debug(
                                     f"Progress: {transfer_progress},  {transfer_percent:.2f}%"
                                 )
                                 callback(transfer_percent)
-                                previous_update = transfer_percent
+                                previous_update = math.floor(transfer_percent)
 
                 except BaseException as e:
                     return TaskStatus(
