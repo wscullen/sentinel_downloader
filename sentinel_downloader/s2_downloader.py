@@ -513,6 +513,10 @@ class S2Downloader:
                             transfer_percent = round(
                                 min(100, (transfer_progress / file_size) * 100), 2
                             )
+                            self.logger.info(transfer_percent)
+                            self.logger.info(previous_update)
+                            self.logger.info(transfer_percent - previous_update)
+                            self.logger.info(update_throttle_threshold)
                             if (
                                 transfer_percent - previous_update
                             ) > update_throttle_threshold:
@@ -527,8 +531,10 @@ class S2Downloader:
                         False, "An exception occured while trying to download.", e
                     )
                 else:
+                    callback(transfer_percent)
                     return TaskStatus(True, "Download successful", str(full_file_path))
             else:
+                callback(100)
                 return TaskStatus(
                     True,
                     "Requested file to download already exists.",
