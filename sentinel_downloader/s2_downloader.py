@@ -1,4 +1,10 @@
 from sentinelsat.sentinel import SentinelAPI, read_geojson, geojson_to_wkt
+from sentinelsat.exceptions import (
+    LTAError,
+    LATTriggered,
+    ServerError,
+    UnauthorizedError,
+)
 import os
 import json
 import datetime
@@ -26,16 +32,6 @@ class S2Downloader:
 
         # create logger
         self.logger = logging.getLogger(__name__)
-
-        # create console handler and set level to debug
-        # ch = logging.StreamHandler()
-        # ch.setLevel(logging.DEBUG)
-        # formatter = logging.Formatter(
-        #     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        # )
-        # ch.setFormatter(formatter)
-        # self.logger.addHandler(ch)
-        # self.logger.propagate = False
 
         user_n = None
         pass_w = None
@@ -627,19 +623,12 @@ class S2Downloader:
         s3://sentinel-s1-l1c/GRD/2018/1/11/EW/DH/S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB/
 
         product_id format is S1A_EW_GRDH_1SDH_20180111T110409_20180111T110513_020106_02247C_FBAB
-
         Where:
-
         [product type] = GRD - GRD or SLC
-
         [year] = e.g. 2018 - is the year the data was collected.
-
         [month] = e.g. 1 - is the month of the year the data was collected (without leading zeros).
-
         [day] = e.g. 11 - is the day of the month the data was collected (without leading zeros).
-
         [mode] = e.g. EW - IW, EW, WV, IW1-IW3, EW1-EW5, WV1-WV2, S1-S6, IS1-IS7; note that modes depend on the [product type]
-
         [polarization] = e.g. DH - DH, DV, SH, SV, VH, HV, HV, VH; note that polarizations depend on the observation scenario
 
         product identifier - original product identifier
@@ -712,3 +701,17 @@ class S2Downloader:
         # if r.status_code == 200:
         #     result = r.json()
         #     return result
+
+    def check_if_product_online(self, product_id: str):
+
+        return self.api.is_online(product_id)
+
+    def trigger_offline_retrieval(self, product_id: str) -> bool:
+        offline_retrieval_success = None
+        try:
+            offline_retrieval_success = self.api.trigger_offline_retrieval(product_id)
+        except Exception as e:
+            self.logger.error(f"Error while triggering offline retrieval: {e}")
+            offline_retrieval_success = False
+        finally:
+            return offline_retrieval_success
