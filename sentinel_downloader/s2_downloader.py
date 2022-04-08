@@ -1,7 +1,7 @@
 from sentinelsat.sentinel import SentinelAPI, read_geojson, geojson_to_wkt
 from sentinelsat.exceptions import (
     LTAError,
-    LATTriggered,
+    LTATriggered,
     ServerError,
     UnauthorizedError,
 )
